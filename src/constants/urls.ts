@@ -1,0 +1,2 @@
+export const URL_MOVIE_LIST = 'https://api.themoviedb.org/3/genre/movie/list?language=ru';
+export const TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MThmNDRmMDhiNTFmNDlmYTRjYzA1ZWMzMTUyZGUzMCIsIm5iZiI6MTc0ODA2MzM2NC41MzcsInN1YiI6IjY4MzE1NDg0M2IwNzMwYzYzZWE4NjM5ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mdlVh3-uQVWcP-bOsSkKP9j_5Xk_XwrUdXuXlC2HI7g'
