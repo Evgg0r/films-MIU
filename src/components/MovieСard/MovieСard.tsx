@@ -1,15 +1,16 @@
 import {Box, Card, CardContent, CardMedia, Typography, Paper} from "@mui/material";
 import {Star} from "@mui/icons-material";
+import type {MovieCardProps} from "../../types/types.ts";
 
-export function MovieCard() {
+export function MovieCard( {movie}: MovieCardProps) {
     return (
         <Paper>
             <Card sx={{width: 296, height: 324}}>
                 <CardMedia
                     component="img"
                     width="324"
-                    image={`https://avatars.mds.yandex.net/get-kinopoisk-image/4774061/cf1970bc-3f08-4e0e-a095-2fb57c3aa7c6/600x900`}
-                    alt="123"
+                    image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
                     sx={{
                         height: 240,
                         width: '100%',
@@ -19,8 +20,8 @@ export function MovieCard() {
                 <CardContent>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Box display="flex" flexDirection="column">
-                            <Typography variant="h6">Матрица</Typography>
-                            <Typography variant="body2">Рейтинг 123</Typography>
+                            <Typography variant="h6">{movie.title}</Typography>
+                            <Typography variant="body2">{movie.vote_average}</Typography>
                         </Box>
                         <Star/>
                     </Box>

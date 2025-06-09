@@ -1,9 +1,8 @@
-import type {FilterState, PaginationConfigType, SliderConfigType, SortOptionType} from "../types/types.tsx";
+import type {FilterState, SliderConfigType, SortOptionType} from "../types/types.ts";
 
 export const SORT_OPTIONS: SortOptionType[] = [
     {value: "popular", label: "Популярности"},
     {value: "rating", label: "Рейтингу"},
-    {value:"novelty", label: "Новизне"},
 ]
 
 export const SLIDER_CONFIG: SliderConfigType = {
@@ -14,14 +13,11 @@ export const SLIDER_CONFIG: SliderConfigType = {
     yearRange: [1980, 2020]
 }
 
-export const PAGINATION_CONFIG: PaginationConfigType = {
-    count: 5,
-    page: 1,
-};
-
 export const INITIAL_STATE: FilterState = {
     sortBy: '',
     selectedGenres: [],
     yearRange: SLIDER_CONFIG.yearRange,
-    page: PAGINATION_CONFIG.page,
+    page: 1,
 }
+
+export const PAGES_LIMIT: number = 500;

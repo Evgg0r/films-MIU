@@ -1,12 +1,15 @@
 import {Autocomplete, Box, Checkbox, FormControl, IconButton, InputLabel, MenuItem, Pagination, Paper, Select, Slider, TextField, Tooltip, Typography} from "@mui/material";
 import {CheckBox, CheckBoxOutlineBlank, Close} from "@mui/icons-material";
-import type {Genre} from "../../types/types.tsx";
+import type {FiltersProps, Genre} from "../../types/types.ts";
 import {useFilterContext, useLoadGenres} from "../../hooks/hooks.tsx";
-import {PAGINATION_CONFIG, SLIDER_CONFIG, SORT_OPTIONS} from "../../constants/constants.tsx";
+import {PAGES_LIMIT, SLIDER_CONFIG, SORT_OPTIONS} from "../../constants/constants.ts";
 
-export function Filters() {
+export function Filters( { totalPages }: FiltersProps) {
     const { state, dispatch } = useFilterContext();
-    const genres = useLoadGenres();
+    const genres: Genre[] = useLoadGenres();
+
+    const visiblePages: number = Math.min(totalPages, PAGES_LIMIT);
+    const safePage:number = Math.min(state.page, visiblePages);
 
     return (
         <Paper
@@ -117,10 +120,14 @@ export function Filters() {
             </Box>
             <Pagination
                 sx={{mb: 1}}
-                count={PAGINATION_CONFIG.count}
-                page={state.page}
+                count={visiblePages}
+                page={safePage}
                 onChange={(_, value) => dispatch({type: 'setPage', value})}
                 color="primary"
+                siblingCount={0}
+                boundaryCount={0}
+                showFirstButton
+                showLastButton
             />
         </Paper>
     );
