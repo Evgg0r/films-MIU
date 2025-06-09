@@ -41,7 +41,24 @@ export type SliderConfigType= {
     yearRange: [number, number],
 }
 
-export type PaginationConfigType = {
-    count: number,
-    page: number,
+export type Movie = {
+    id: number;
+    title: string;
+    poster_path: string;
+    vote_average: number;
+};
+
+export type MovieResponse = {
+    page: number;
+    results: Movie[];
+    total_pages: number;
+    total_results: number;
+};
+
+export type MovieCardProps = {
+    movie: Movie;
+};
+
+export type FiltersProps = {
+    totalPages: number;
 }

@@ -1,6 +1,6 @@
 import {createContext, useReducer} from "react";
-import type {FilterAction, FilterContextType, FilterProviderProps, FilterState} from "../types/types.tsx";
-import {INITIAL_STATE} from "../constants/constants.tsx";
+import type {FilterAction, FilterContextType, FilterProviderProps, FilterState} from "../types/types.ts";
+import {INITIAL_STATE} from "../constants/constants.ts";
 
 export const FilterContext = createContext<FilterContextType>({
     state: INITIAL_STATE,
