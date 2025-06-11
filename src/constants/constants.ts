@@ -1,4 +1,4 @@
-import type {FilterState, SliderConfigType, SortOptionType} from "../types/types.ts";
+import type {FilterState, SliderConfigType, SortOptionType} from "../types/types";
 
 export const SORT_OPTIONS: SortOptionType[] = [
     {value: "popular", label: "Популярности"},

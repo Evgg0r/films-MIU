@@ -1,9 +1,9 @@
 import {useContext, useEffect, useState} from "react";
 import {FilterContext} from "../Context/FilterContext.tsx";
-import type {FilterContextType, Genre, MovieResponse} from "../types/types.ts";
+import type {CreditsResponse, FilterContextType, Genre, MovieDetailsResponse, MovieResponse} from "../types/types.ts";
 import {UserContext} from "../Context/UserContext.tsx";
 import {fetchData} from "../api/fetch.tsx";
-import {URL_MOVIE_LIST, URL_POPULAR_LIST, URL_TOP_RATED_LIST} from "../constants/urls.ts";
+import {MOVIE_URL, URL_MOVIE_LIST, URL_POPULAR_LIST, URL_TOP_RATED_LIST} from "../constants/urls.ts";
 
 export function useFilterContext(): FilterContextType {
     return useContext(FilterContext);
@@ -47,4 +47,27 @@ export function useLoadMovies() {
     }, [state.sortBy, state.page, userToken]);
 
     return movies;
+}
+
+export function useLoadMovieInfo(movieId?: string) {
+    const [details, setDetails] = useState<MovieDetailsResponse | null>(null);
+    const [credits, setCredits] = useState<CreditsResponse | null>(null);
+    const userToken = useContext(UserContext);
+
+    useEffect(() => {
+            if (!movieId) return;
+
+            const infoUrl = `${MOVIE_URL}${movieId}?language=ru`;
+            const creditsUrl = `${MOVIE_URL}${movieId}/credits?language=ru`;
+
+            fetchData(infoUrl, userToken)
+                .then((data) => setDetails(data))
+                .catch(console.error);
+
+            fetchData(creditsUrl, userToken)
+                .then((data) => setCredits(data))
+                .catch(console.error);
+        }, [movieId, userToken]);
+
+        return { details, credits };
 }
