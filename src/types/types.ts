@@ -62,3 +62,32 @@ export type MovieCardProps = {
 export type FiltersProps = {
     totalPages: number;
 }
+
+export type CastPerson = {
+    id: number;
+    name: string;
+}
+
+export type CrewPerson = {
+    id: number;
+    name: string;
+    job: string;
+}
+
+export type CreditsResponse = {
+    id: number;
+    cast: CastPerson[];
+    crew: CrewPerson[];
+}
+
+export type MovieDetailsResponse = {
+    id: number;
+    title: string;
+    poster_path: string;
+    release_date: string;
+    vote_average: number;
+    runtime: number;
+    budget: number;
+    genres: { id: number; name: string }[];
+    production_countries: { name: string }[];
+}

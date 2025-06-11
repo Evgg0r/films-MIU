@@ -1,20 +1,26 @@
+import '@fontsource/roboto/300.css';
 import {Header} from "./components/Header/Header";
 import {Filters} from "./components/Filters/Filters";
 import {Box, Typography} from '@mui/material';
 import {MovieCard} from "./components/MovieСard/MovieСard";
-import {useLoadMovies} from "./hooks/hooks.tsx";
-import type {Movie, MovieResponse} from "./types/types.ts";
-import {FilterProvider} from "./Context/FilterContext.tsx";
-import {StrictMode} from "react";
+import {useLoadMovies} from "./hooks/hooks";
+import type {Movie, MovieResponse} from "./types/types";
+import {FilterProvider} from "./Context/FilterContext";
+
+import {Routes, Route} from 'react-router-dom';
+import {MovieDetails} from './components/MovieDetails/MovieDetails';
+
+
 
 export function App() {
     return (
-        <StrictMode>
             <FilterProvider>
                 <Header/>
-                <InnerApp/>
+                <Routes>
+                    <Route path="/" element={<InnerApp />} />
+                    <Route path="/movies/:id" element={<MovieDetails />} />
+                </Routes>
             </FilterProvider>
-        </StrictMode>
     );
 }
 

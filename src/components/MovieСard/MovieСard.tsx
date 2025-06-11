@@ -1,10 +1,14 @@
 import {Box, Card, CardContent, CardMedia, Typography, Paper} from "@mui/material";
 import {Star} from "@mui/icons-material";
 import type {MovieCardProps} from "../../types/types.ts";
+import {Link} from "react-router-dom";
 
-export function MovieCard( {movie}: MovieCardProps) {
+
+export function MovieCard({movie}: MovieCardProps) {
     return (
-        <Paper>
+        <Paper component={Link}
+               to={`/movies/${movie.id}`}
+               sx={{textDecoration: 'none'}}>
             <Card sx={{width: 296, height: 324}}>
                 <CardMedia
                     component="img"
@@ -28,5 +32,6 @@ export function MovieCard( {movie}: MovieCardProps) {
                 </CardContent>
             </Card>
         </Paper>
+
     )
 }
