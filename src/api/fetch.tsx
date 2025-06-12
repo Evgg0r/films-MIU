@@ -1,9 +1,9 @@
-export async function fetchData(url:string, userToken:string) {
+export async function fetchData(url:string, token:string) {
     const options = {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: `Bearer ${userToken}`
+            Authorization: `Bearer ${token}`
         }
     };
 

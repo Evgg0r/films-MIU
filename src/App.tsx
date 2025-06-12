@@ -3,16 +3,26 @@ import {Header} from "./components/Header/Header";
 import {Filters} from "./components/Filters/Filters";
 import {Box, Typography} from '@mui/material';
 import {MovieCard} from "./components/MovieСard/MovieСard";
-import {useLoadMovies} from "./hooks/hooks";
+import {useAuth, useLoadMovies} from "./hooks/hooks";
 import type {Movie, MovieResponse} from "./types/types";
 import {FilterProvider} from "./Context/FilterContext";
-
 import {Routes, Route} from 'react-router-dom';
 import {MovieDetails} from './components/MovieDetails/MovieDetails';
-
-
+import {LoginPage} from "./components/LoginPage/LoginPage.tsx";
 
 export function App() {
+    const { token, loading } = useAuth();
+    if (loading) return null;
+
+    if (!token) {
+        return (
+            <>
+                <Header/>
+                <LoginPage/>
+            </>
+        );
+    }
+
     return (
             <FilterProvider>
                 <Header/>
@@ -48,6 +58,7 @@ function InnerApp() {
                                 alignItems="center"
                                 height="300px"
                                 width="100%"
+                                p={10}
                             >
                                 <Typography
                                     variant="h5"

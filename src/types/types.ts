@@ -1,5 +1,6 @@
 import type {Dispatch, ReactNode} from "react";
 
+
 export type Genre = {
     id: string,
     name: string,
@@ -91,3 +92,38 @@ export type MovieDetailsResponse = {
     genres: { id: number; name: string }[];
     production_countries: { name: string }[];
 }
+
+type InfoItem = {
+    label: string;
+    value: string;
+};
+
+export type movieDetailsProps = {
+    movieDetails: InfoItem[];
+};
+
+export type MovieActorsInfoProps = {
+    castActors: CastPerson[];
+};
+
+export type MovieTitleInfoProps = {
+    movieTitle: string;
+    movieYear: string;
+};
+
+export type MoviePosterProps = {
+    movieTitle: string;
+    urlPoster: string;
+}
+
+export type ModalProps = {
+    open: boolean;
+    onClose: () => void;
+};
+
+export type AuthContextType = {
+    token: string | null;
+    login: (token: string) => void;
+    logout: () => void;
+    loading: boolean;
+};
