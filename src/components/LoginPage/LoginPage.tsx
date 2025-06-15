@@ -1,10 +1,9 @@
 import {Box, Button, Typography} from "@mui/material";
-import {useState} from "react";
-import {RequestTokenModal} from "../RequestTokenModal/RequestTokenModal.tsx";
+import {useModal} from "../../hooks/hooks";
 
 
 export function LoginPage() {
-    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const {openModal} = useModal();
 
     return (
         <>
@@ -15,11 +14,10 @@ export function LoginPage() {
                 <Button
                     sx={{mt: 4}}
                     variant="contained"
-                    onClick={() => setIsLoginOpen(true)}
+                    onClick={() => openModal('requestToken')}
                 >Войти
                 </Button>
             </Box>
-            <RequestTokenModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)}/>
         </>
     )
 }

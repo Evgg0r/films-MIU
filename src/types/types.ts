@@ -109,6 +109,7 @@ export type MovieActorsInfoProps = {
 export type MovieTitleInfoProps = {
     movieTitle: string;
     movieYear: string;
+    movieIdValue: number;
 };
 
 export type MoviePosterProps = {
@@ -123,7 +124,31 @@ export type ModalProps = {
 
 export type AuthContextType = {
     token: string | null;
-    login: (token: string) => void;
+    login: (token: string, id: number) => void;
     logout: () => void;
     loading: boolean;
+    userId: number | null;
+    favorites: number[];
+    toggleFavorite: (movieId: number, isFav: boolean) => Promise<void>;
+};
+
+export type dataToggleFavorite = {
+    media_type: string;
+    media_id: number;
+    favorite: boolean;
+}
+
+export type FavoriteMoviesResponse = {
+    results: Movie[];
+    page: number;
+    total_pages: number;
+    total_results: number;
+};
+
+export type ModalType = 'requestToken' | 'enterToken' | null;
+
+export type ModalContextType = {
+    openModal: (type: ModalType) => void;
+    closeModal: () => void;
+    currentModal: ModalType;
 };

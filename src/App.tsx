@@ -8,7 +8,9 @@ import type {Movie, MovieResponse} from "./types/types";
 import {FilterProvider} from "./Context/FilterContext";
 import {Routes, Route} from 'react-router-dom';
 import {MovieDetails} from './components/MovieDetails/MovieDetails';
-import {LoginPage} from "./components/LoginPage/LoginPage.tsx";
+import {LoginPage} from "./components/LoginPage/LoginPage";
+import {ModalProvider} from "./Context/ModalContext";
+import {ModalsContainer} from "./components/ModalsContainer/ModalsContainer";
 
 export function App() {
     const { token, loading } = useAuth();
@@ -16,21 +18,25 @@ export function App() {
 
     if (!token) {
         return (
-            <>
-                <Header/>
-                <LoginPage/>
-            </>
+                <ModalProvider>
+                    <Header/>
+                    <LoginPage/>
+                    <ModalsContainer/>
+                </ModalProvider>
         );
     }
 
     return (
+        <ModalProvider>
             <FilterProvider>
                 <Header/>
                 <Routes>
                     <Route path="/" element={<InnerApp />} />
                     <Route path="/movies/:id" element={<MovieDetails />} />
                 </Routes>
+                <ModalsContainer />
             </FilterProvider>
+        </ModalProvider>
     );
 }
 

@@ -1,8 +1,8 @@
-import {Box, IconButton, Typography} from "@mui/material";
-import {Star} from "@mui/icons-material";
-import type {MovieTitleInfoProps} from "../../types/types.ts";
+import {Box, Typography} from "@mui/material";
+import type {MovieTitleInfoProps} from "../../types/types";
+import {FavoriteButton} from "../FavoriteButton/FavoriteButton";
 
-export function MovieTitleInfo({movieTitle, movieYear}: MovieTitleInfoProps) {
+export function MovieTitleInfo({movieTitle, movieYear, movieIdValue}: MovieTitleInfoProps) {
     return (
         <Box display="flex" alignItems="center" gap={1}>
             <Typography
@@ -13,9 +13,8 @@ export function MovieTitleInfo({movieTitle, movieYear}: MovieTitleInfoProps) {
                 }}>
                 {movieTitle} ({movieYear})
             </Typography>
-            <IconButton>
-                <Star fontSize="large" sx={{color: '#f9a825'}}/>
-            </IconButton>
+
+            <FavoriteButton movieId={movieIdValue}/>
         </Box>
     )
 }
