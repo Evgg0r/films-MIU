@@ -1,7 +1,7 @@
 import {Box, Card, CardContent, CardMedia, Typography, Paper} from "@mui/material";
-import {Star} from "@mui/icons-material";
-import type {MovieCardProps} from "../../types/types.ts";
+import type {MovieCardProps} from "../../types/types";
 import {Link} from "react-router-dom";
+import {FavoriteButton} from "../FavoriteButton/FavoriteButton";
 
 
 export function MovieCard({movie}: MovieCardProps) {
@@ -24,14 +24,20 @@ export function MovieCard({movie}: MovieCardProps) {
                 <CardContent>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Box display="flex" flexDirection="column">
-                            <Typography variant="h6">{movie.title}</Typography>
-                            <Typography variant="body2">{movie.vote_average}</Typography>
+                            <Typography variant="h6"
+                                        noWrap
+                                        sx={{
+                                            maxWidth: 224,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                        }}
+                            >{movie.title}</Typography>
+                            <Typography variant="body2">Рейтинг {movie.vote_average}</Typography>
                         </Box>
-                        <Star/>
+                        <FavoriteButton movieId={movie.id} />
                     </Box>
                 </CardContent>
             </Card>
         </Paper>
-
     )
 }

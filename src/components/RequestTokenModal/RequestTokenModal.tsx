@@ -1,12 +1,12 @@
 import {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
-import type {ModalProps} from "../../types/types.ts";
-import {EnterTokenModal} from "../EnterTokenModal/EnterTokenModal.tsx";
+import type {ModalProps} from "../../types/types";
 import { isEmail } from 'validator';
+import {useModal} from "../../hooks/hooks";
 
 export function RequestTokenModal({open, onClose}: ModalProps) {
     const [email, setEmail] = useState('');
-    const [isEnterOpen, setIsEnterOpen] = useState(false);
+    const {openModal} = useModal();
     const [error, setError] = useState(false);
 
     const handleChange = () => {
@@ -16,8 +16,7 @@ export function RequestTokenModal({open, onClose}: ModalProps) {
         }
         setError(false);
         setEmail("");
-        onClose()
-        setIsEnterOpen(true)
+        openModal('enterToken')
     };
 
     return (
@@ -68,7 +67,6 @@ export function RequestTokenModal({open, onClose}: ModalProps) {
                     >Запросить</Button>
                 </DialogActions>
             </Dialog>
-            <EnterTokenModal open={isEnterOpen} onClose={() => setIsEnterOpen(false)}/>
         </>
     )
 }
