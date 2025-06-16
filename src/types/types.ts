@@ -16,6 +16,7 @@ export type FilterState = {
     yearRange: [number, number],
     selectedGenres: string[],
     page: number,
+    query: string,
 }
 
 export type FilterAction =
@@ -23,7 +24,8 @@ export type FilterAction =
     | {type: 'setYearRange'; value: [number, number]}
     | {type: 'setSelectedGenres'; value: string[]}
     | {type: 'setPage'; value: number}
-    | {type: 'reset'};
+    | {type: 'reset'}
+    | { type: 'setQuery'; value: string };
 
 export type FilterProviderProps = {
     children: ReactNode;

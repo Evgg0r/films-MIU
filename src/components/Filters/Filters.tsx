@@ -1,5 +1,6 @@
-import {Autocomplete, Box, Checkbox, FormControl, IconButton, InputLabel, MenuItem, Pagination, Paper, Select, Slider, TextField, Tooltip, Typography} from "@mui/material";
-import {CheckBox, CheckBoxOutlineBlank, Close} from "@mui/icons-material";
+import {Autocomplete, Box, Checkbox, FormControl, IconButton,
+    InputAdornment, InputLabel, MenuItem, Pagination, Paper, Select, Slider, TextField, Tooltip, Typography} from "@mui/material";
+import {CheckBox, CheckBoxOutlineBlank, Close, Search} from "@mui/icons-material";
 import type {FiltersProps, Genre} from "../../types/types.ts";
 import {useFilterContext, useLoadGenres} from "../../hooks/hooks.tsx";
 import {PAGES_LIMIT, SLIDER_CONFIG, SORT_OPTIONS} from "../../constants/constants.ts";
@@ -50,6 +51,23 @@ export function Filters( { totalPages }: FiltersProps) {
                         </IconButton>
                     </Tooltip>
                 </Box>
+                <TextField
+                    variant="standard"
+                    placeholder="Поиск..."
+                    fullWidth
+                    sx={{mt: 1}}
+                    value={state.query}
+                    onChange={(event) => dispatch({type: 'setQuery', value: event.target.value})}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton >
+                                    <Search/>
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
                 <FormControl
                     fullWidth
                     variant="standard"

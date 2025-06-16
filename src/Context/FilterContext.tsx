@@ -19,6 +19,8 @@ function reducer(state: FilterState, action: FilterAction) {
             return {...state, page: action.value};
         case 'reset':
             return INITIAL_STATE
+        case 'setQuery':
+            return { ...state, query: action.value, page: 1 }
         default:
             return state;
     }

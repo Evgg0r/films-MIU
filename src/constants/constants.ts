@@ -18,6 +18,7 @@ export const INITIAL_STATE: FilterState = {
     selectedGenres: [],
     yearRange: SLIDER_CONFIG.yearRange,
     page: 1,
+    query: '',
 }
 
 export const PAGES_LIMIT: number = 500;

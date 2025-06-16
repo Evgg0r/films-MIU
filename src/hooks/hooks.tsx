@@ -24,26 +24,30 @@ export function useLoadGenres() {
 
 export function useLoadMovies() {
     const [movies, setMovies] = useState<MovieResponse | null>(null);
-    const { state } = useFilterContext();
+    const {state} = useFilterContext();
 
     useEffect(() => {
         let url = '';
 
-        switch (state.sortBy) {
-            case 'popular':
-                url = `${URL_POPULAR_LIST}${state.page}`;
-                break;
-            case 'rating':
-                url = `${URL_TOP_RATED_LIST}${state.page}`;
-                break;
-            default:
-                return;
+        if (state.query.trim()) {
+            url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(state.query.trim())}&language=ru&page=${state.page}`;
+        } else {
+            switch (state.sortBy) {
+                case 'popular':
+                    url = `${URL_POPULAR_LIST}${state.page}`;
+                    break;
+                case 'rating':
+                    url = `${URL_TOP_RATED_LIST}${state.page}`;
+                    break;
+                default:
+                    return;
+            }
         }
 
         fetchData(url)
             .then((data: MovieResponse) => setMovies(data))
             .catch((error) => console.error('Ошибка при получении фильмов:', error));
-    }, [state.sortBy, state.page]);
+    }, [state.sortBy, state.page, state.query]);
 
     return movies;
 }
