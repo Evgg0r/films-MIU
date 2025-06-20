@@ -1,10 +1,11 @@
 import {useContext, useEffect, useState} from "react";
 import {FilterContext} from "../Context/FilterContext";
-import type {AuthContextType, CreditsResponse, FilterContextType, Genre, MovieDetailsResponse, MovieResponse} from "../types/types";
+import type {AuthContextType, CreditsResponse, FavoriteMoviesResponse, FilterContextType, Genre, MovieDetailsResponse, MovieFavoritesType, MovieResponse} from "../types/types";
 import {AuthContext} from "../Context/AuthContext";
 import {fetchData} from "../api/fetch";
 import {MOVIE_URL, URL_MOVIE_LIST, URL_POPULAR_LIST, URL_TOP_RATED_LIST} from "../constants/urls";
 import {ModalContext} from "../Context/ModalContext";
+import {mutateFavoriteFilm} from "../components/FavoriteButton/mutateFavoriteFilm.ts";
 
 export function useFilterContext(): FilterContextType {
     return useContext(FilterContext);
@@ -87,4 +88,46 @@ export const useModal = () => {
     const context = useContext(ModalContext);
     if (!context) throw new Error('Ошибка контекста модального окна');
     return context;
+};
+
+export const useMovieFavorites = (): MovieFavoritesType => {
+    const userId = useAuth();
+    const [favorites, setFavorites] = useState<number[]>([]);
+
+    useEffect(() => {
+        const url = `https://api.themoviedb.org/3/account/${userId}/favorite/movies?language=ru&page=1&sort_by=created_at.asc`
+        fetchData(url)
+            .then((data: FavoriteMoviesResponse) => setFavorites(data.results.map((movie) => movie.id)))
+            .catch(console.error);
+    }, []);
+
+    const toggleFavorite = async (movieId: number, isFav: boolean) => {
+        const url = `https://api.themoviedb.org/3/account/${userId}/favorite`;
+
+        setFavorites((prev) =>
+            isFav ? prev.filter((id) => id !== movieId) : [...prev, movieId]
+        );
+
+
+        try {
+            await mutateFavoriteFilm(url, {
+                media_type: "movie",
+                media_id: movieId,
+                favorite: !isFav,
+            });
+
+
+        } catch (error) {
+            setFavorites(prev =>
+                isFav ? [...prev, movieId] : prev.filter(id => id !== movieId)
+            );
+            console.error("Ошибка при обновлении избранного:", error);
+            throw error
+        }
+    };
+
+    return {
+        favorites,
+        toggleFavorite,
+    };
 };

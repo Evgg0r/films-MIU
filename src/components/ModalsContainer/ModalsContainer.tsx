@@ -1,19 +1,20 @@
 import {useModal} from "../../hooks/hooks";
 import {RequestTokenModal} from "../RequestTokenModal/RequestTokenModal";
-import {EnterTokenModal} from "../EnterTokenModal/EnterTokenModal.tsx";
+import {EnterTokenModal} from "../EnterTokenModal/EnterTokenModal";
+import type {ModalKey, ModalProps} from "../../types/types.ts";
+import type {FC} from "react";
 
+const modalComponents: Record<ModalKey, FC<ModalProps>> = {
+    requestToken: RequestTokenModal,
+    enterToken: EnterTokenModal,
+};
 
 export function ModalsContainer() {
     const { currentModal, closeModal } = useModal();
 
-    return (
-        <>
-            {currentModal === 'requestToken' && (
-                <RequestTokenModal open={true} onClose={closeModal} />
-            )}
-            {currentModal === 'enterToken' && (
-        <EnterTokenModal open={true} onClose={closeModal} />
-      )}
-        </>
-    );
+    if (!currentModal) return null;
+
+    const ModalComponent = modalComponents[currentModal];
+
+    return <ModalComponent open={true} onClose={closeModal} />;
 }
