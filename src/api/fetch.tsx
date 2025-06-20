@@ -1,36 +1,51 @@
-import type {dataToggleFavorite} from "../types/types";
-
-export async function fetchData(url:string, body?: dataToggleFavorite) {
-    const token = localStorage.getItem("user_token")
+export async function fetchData(url: string) {
+    const token = localStorage.getItem("user_token");
 
     if (!token) {
-        console.warn('Требуется авторизация');
-        return;
+        console.warn("Требуется авторизация");
+        throw new Error("Нет токена");
     }
 
-    const options:RequestInit = {
-        method: 'GET',
+    const res = await fetch(url, {
+        method: "GET",
         headers: {
-            accept: 'application/json',
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!res.ok) {
+        throw new Error(`Ошибка: ${res.status}`);
+    }
+
+    return await res.json();
+}
+
+export async function mutateData<T>(
+    url: string,
+    body: T,
+    method: "POST" | "PATCH" | "PUT" | "DELETE" = "POST"
+) {
+    const token = localStorage.getItem("user_token");
+
+    if (!token) {
+        console.warn("Требуется авторизация");
+        throw new Error("Нет токена");
+    }
+
+    const res = await fetch(url, {
+        method,
+        headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        }
-    };
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+    });
 
-    if (body) {
-        options.method = 'POST';
-        options.body = JSON.stringify(body)
+    if (!res.ok) {
+        throw new Error(`Ошибка: ${res.status}`);
     }
 
-    try {
-        const res = await fetch(url, options);
-        if (!res.ok) {
-            throw new Error(`Ошибка: ${res.status}`);
-        }
-        const data = await res.json();
-        return data
-    } catch (error) {
-        console.error('Ошибка при загрузке:', error)
-        return;
-    }
+    return await res.json();
 }

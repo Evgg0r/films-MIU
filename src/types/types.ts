@@ -130,11 +130,9 @@ export type AuthContextType = {
     logout: () => void;
     loading: boolean;
     userId: number | null;
-    favorites: number[];
-    toggleFavorite: (movieId: number, isFav: boolean) => Promise<void>;
 };
 
-export type dataToggleFavorite = {
+export type FavoriteRequestBody = {
     media_type: string;
     media_id: number;
     favorite: boolean;
@@ -146,11 +144,18 @@ export type FavoriteMoviesResponse = {
     total_pages: number;
     total_results: number;
 };
+export type ModalKey = 'requestToken' | 'enterToken';
 
-export type ModalType = 'requestToken' | 'enterToken' | null;
+export type ModalType = ModalKey | null;
 
 export type ModalContextType = {
-    openModal: (type: ModalType) => void;
+    openModal: (type: ModalKey) => void;
     closeModal: () => void;
     currentModal: ModalType;
 };
+
+export type MovieFavoritesType =  {
+    favorites: number[];
+    toggleFavorite: (movieId: number, isFav: boolean) => Promise<void>;
+}
+
