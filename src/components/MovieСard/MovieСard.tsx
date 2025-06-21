@@ -2,9 +2,11 @@ import {Box, Card, CardContent, CardMedia, Typography, Paper} from "@mui/materia
 import type {MovieCardProps} from "../../types/types";
 import {Link} from "react-router-dom";
 import {FavoriteButton} from "../FavoriteButton/FavoriteButton";
+import {memo} from "react";
 
 
-export function MovieCard({movie}: MovieCardProps) {
+export const MovieCard = memo(({movie}: MovieCardProps) => {
+    console.log('🔄 Ререндер карточки:', movie.title);
     return (
         <Paper component={Link}
                to={`/movies/${movie.id}`}
@@ -40,4 +42,4 @@ export function MovieCard({movie}: MovieCardProps) {
             </Card>
         </Paper>
     )
-}
+})

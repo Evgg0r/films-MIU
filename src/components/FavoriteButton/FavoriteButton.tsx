@@ -1,16 +1,17 @@
 import {Snackbar, Alert, IconButton} from '@mui/material';
-import {useState} from 'react';
-import { useMovieFavorites } from '../../hooks/hooks.tsx';
+import {memo, useCallback, useState} from 'react';
+import {useMovieFavorites, useToggleFavoriteMovie} from '../../hooks/hooks.tsx';
 import {Star,StarBorder} from "@mui/icons-material";
 
-export function FavoriteButton({movieId}: { movieId: number }) {
-    const { favorites, toggleFavorite } = useMovieFavorites();
+export const FavoriteButton = memo(({movieId}: { movieId: number })=> {
+    const { favorites, setFavorites } = useMovieFavorites();
+    const {toggleFavorite} = useToggleFavoriteMovie(favorites, setFavorites);
     const isFav = favorites.includes(movieId);
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [severity, setSeverity] = useState<"error" | "info">("info");
 
-    const handleClick = async (e: React.MouseEvent) => {
+    const handleClick = useCallback(async (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
 
@@ -25,7 +26,7 @@ export function FavoriteButton({movieId}: { movieId: number }) {
         } finally {
             setOpen(true);
         }
-    };
+    }, [movieId, isFav, toggleFavorite]);
 
     return (
         <>
@@ -48,4 +49,4 @@ export function FavoriteButton({movieId}: { movieId: number }) {
             </Snackbar>
         </>
     );
-}
+})
