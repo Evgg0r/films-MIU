@@ -1,16 +1,82 @@
-import {Autocomplete, Box, Checkbox, FormControl, IconButton,
-    InputAdornment, InputLabel, MenuItem, Pagination, Paper, Select, Slider, TextField, Tooltip, Typography} from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    Checkbox,
+    FormControl,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Pagination,
+    Paper,
+    Select,
+    type SelectChangeEvent,
+    Slider,
+    TextField,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import {CheckBox, CheckBoxOutlineBlank, Close, Search} from "@mui/icons-material";
 import type {FiltersProps, Genre} from "../../types/types.ts";
 import {useFilterContext, useLoadGenres} from "../../hooks/hooks.tsx";
 import {PAGES_LIMIT, SLIDER_CONFIG, SORT_OPTIONS} from "../../constants/constants.ts";
+import {memo, useCallback, useMemo} from "react";
 
-export function Filters( { totalPages }: FiltersProps) {
+export const Filters = memo(( { totalPages }: FiltersProps) => {
     const { state, dispatch } = useFilterContext();
     const genres: Genre[] = useLoadGenres();
 
-    const visiblePages: number = Math.min(totalPages, PAGES_LIMIT);
-    const safePage:number = Math.min(state.page, visiblePages);
+    const visiblePages = useMemo(() => {
+        return Math.min(totalPages, PAGES_LIMIT);
+    }, [totalPages]);
+
+    const safePage = useMemo(() => {
+        return Math.min(state.page, visiblePages);
+    }, [state.page, visiblePages]);
+
+    const genreOptions = useMemo(
+        () => genres.map((genre) => genre.name),
+        [genres]
+    );
+
+    const handleGenresChange = useCallback(
+        (_: any, value: string[]) => {
+            dispatch({ type: 'setSelectedGenres', value });
+        },
+        [dispatch]
+    );
+
+    const handleYearChange = useCallback(
+        (_: Event, newValue: number | number[]) => {
+            dispatch({ type: 'setYearRange', value: newValue as [number, number] });
+        },
+        [dispatch]
+    );
+
+    const handleSortChange = useCallback(
+        (event: SelectChangeEvent) => {
+            dispatch({ type: 'setSortBy', value: event.target.value });
+        },
+        [dispatch]
+    );
+
+    const handleQueryChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            dispatch({ type: 'setQuery', value: event.target.value });
+        },
+        [dispatch]
+    );
+
+    const handlePageChange = useCallback(
+        (_: React.ChangeEvent<unknown>, value: number) => {
+            dispatch({ type: 'setPage', value });
+        },
+        [dispatch]
+    );
+
+    const handleResetFilters = useCallback(() => {
+        dispatch({ type: 'reset' });
+    }, [dispatch]);
 
     return (
         <Paper
@@ -45,7 +111,7 @@ export function Filters( { totalPages }: FiltersProps) {
                             edge="end"
                             color="primary"
                             size="small"
-                            onClick={() => dispatch({type: 'reset'})}
+                            onClick={handleResetFilters}
                         >
                             <Close/>
                         </IconButton>
@@ -57,7 +123,7 @@ export function Filters( { totalPages }: FiltersProps) {
                     fullWidth
                     sx={{mt: 1}}
                     value={state.query}
-                    onChange={(event) => dispatch({type: 'setQuery', value: event.target.value})}
+                    onChange={handleQueryChange}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -76,7 +142,7 @@ export function Filters( { totalPages }: FiltersProps) {
                     <InputLabel>Сортировать по:</InputLabel>
                     <Select
                         value={state.sortBy}
-                        onChange={(event) => dispatch({type: 'setSortBy', value: event.target.value})}>
+                        onChange={handleSortChange}>
                         {SORT_OPTIONS.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
@@ -94,7 +160,7 @@ export function Filters( { totalPages }: FiltersProps) {
                 </Typography>
                 <Slider
                     value={state.yearRange}
-                    onChange={(_, newValue) => dispatch({type: 'setYearRange', value: newValue as [number, number]})}
+                    onChange={handleYearChange}
                     valueLabelDisplay="auto"
                     max={SLIDER_CONFIG.yearMax}
                     min={SLIDER_CONFIG.yearMin}
@@ -109,9 +175,9 @@ export function Filters( { totalPages }: FiltersProps) {
                     sx={{mt: 4}}
                     multiple
                     disableCloseOnSelect
-                    options={genres.map((genre: Genre) => genre.name)}
+                    options={genreOptions}
                     value={state.selectedGenres}
-                    onChange={(_, value) =>dispatch({type: 'setSelectedGenres', value})}
+                    onChange={handleGenresChange}
                     getOptionLabel={(option) => option}
                     renderOption={(props, option, {selected}) => {
                         const {key, ...rest} = props;
@@ -140,7 +206,7 @@ export function Filters( { totalPages }: FiltersProps) {
                 sx={{mb: 1}}
                 count={visiblePages}
                 page={safePage}
-                onChange={(_, value) => dispatch({type: 'setPage', value})}
+                onChange={handlePageChange}
                 color="primary"
                 siblingCount={0}
                 boundaryCount={0}
@@ -149,4 +215,4 @@ export function Filters( { totalPages }: FiltersProps) {
             />
         </Paper>
     );
-}
+})

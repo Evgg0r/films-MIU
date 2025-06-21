@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {FilterContext} from "../Context/FilterContext";
-import type {AuthContextType, CreditsResponse, FavoriteMoviesResponse, FilterContextType, Genre, MovieDetailsResponse, MovieFavoritesType, MovieResponse} from "../types/types";
+import type {AuthContextType, CreditsResponse, FavoriteMoviesResponse, FilterContextType, Genre, MovieDetailsResponse, MovieResponse} from "../types/types";
 import {AuthContext} from "../Context/AuthContext";
 import {fetchData} from "../api/fetch";
 import {MOVIE_URL, URL_MOVIE_LIST, URL_POPULAR_LIST, URL_TOP_RATED_LIST} from "../constants/urls";
@@ -90,16 +90,27 @@ export const useModal = () => {
     return context;
 };
 
-export const useMovieFavorites = (): MovieFavoritesType => {
+export const useMovieFavorites = () => {
     const userId = useAuth();
     const [favorites, setFavorites] = useState<number[]>([]);
 
     useEffect(() => {
-        const url = `https://api.themoviedb.org/3/account/${userId}/favorite/movies?language=ru&page=1&sort_by=created_at.asc`
+        const url = `https://api.themoviedb.org/3/account/${userId}/favorite/movies?language=ru&page=1&sort_by=created_at.asc`;
         fetchData(url)
-            .then((data: FavoriteMoviesResponse) => setFavorites(data.results.map((movie) => movie.id)))
+            .then((data: FavoriteMoviesResponse) =>
+                setFavorites(data.results.map((movie) => movie.id))
+            )
             .catch(console.error);
-    }, []);
+    }, [userId]);
+
+    return { favorites, setFavorites };
+};
+
+export const useToggleFavoriteMovie = (
+    _favorites: number[],
+    setFavorites: React.Dispatch<React.SetStateAction<number[]>>
+) => {
+    const userId = useAuth();
 
     const toggleFavorite = async (movieId: number, isFav: boolean) => {
         const url = `https://api.themoviedb.org/3/account/${userId}/favorite`;
@@ -108,26 +119,20 @@ export const useMovieFavorites = (): MovieFavoritesType => {
             isFav ? prev.filter((id) => id !== movieId) : [...prev, movieId]
         );
 
-
         try {
             await mutateFavoriteFilm(url, {
                 media_type: "movie",
                 media_id: movieId,
                 favorite: !isFav,
             });
-
-
         } catch (error) {
-            setFavorites(prev =>
-                isFav ? [...prev, movieId] : prev.filter(id => id !== movieId)
+            setFavorites((prev) =>
+                isFav ? [...prev, movieId] : prev.filter((id) => id !== movieId)
             );
             console.error("Ошибка при обновлении избранного:", error);
-            throw error
+            throw error;
         }
     };
 
-    return {
-        favorites,
-        toggleFavorite,
-    };
+    return { toggleFavorite };
 };

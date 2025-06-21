@@ -154,8 +154,5 @@ export type ModalContextType = {
     currentModal: ModalType;
 };
 
-export type MovieFavoritesType =  {
-    favorites: number[];
-    toggleFavorite: (movieId: number, isFav: boolean) => Promise<void>;
-}
+
 
