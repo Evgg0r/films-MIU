@@ -1,14 +1,16 @@
 import {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import type {ModalProps} from "../../types/types";
-import {useAuth, useModal} from "../../hooks/hooks";
+import {useModal} from "../../hooks/hooks";
 import {HARD_CODED_TOKEN, HARD_CODED_USER_ID} from "../../constants/urls";
+import {useDispatch} from "react-redux";
+import {login} from "../../redux/reducers/authReducer.tsx";
 
 export function EnterTokenModal({open, onClose}: ModalProps) {
     const [token, setToken] = useState("");
-    const {login} = useAuth();
+    const dispatch = useDispatch();
     const [error, setError] = useState(false);
-    const {openModal} = useModal();
+    const {openModal, closeModal} = useModal();
 
     const handleSubmit = () => {
         if (token.trim().length < 10) {
@@ -16,8 +18,8 @@ export function EnterTokenModal({open, onClose}: ModalProps) {
             return;
         }
         setError(true);
-        login(HARD_CODED_TOKEN, HARD_CODED_USER_ID); // ВРЕМЕННО: пока не подключена реальная отправка на почту — токен и userId захардкожен
-        openModal(null)
+        dispatch(login(HARD_CODED_TOKEN, HARD_CODED_USER_ID)); // ВРЕМЕННО: пока не подключена реальная отправка на почту — токен и userId захардкожен
+        closeModal()
     };
 
 

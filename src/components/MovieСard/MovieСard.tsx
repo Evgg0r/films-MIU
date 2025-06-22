@@ -6,7 +6,6 @@ import {memo} from "react";
 
 
 export const MovieCard = memo(({movie}: MovieCardProps) => {
-    console.log('🔄 Ререндер карточки:', movie.title);
     return (
         <Paper component={Link}
                to={`/movies/${movie.id}`}

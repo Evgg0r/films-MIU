@@ -1,4 +1,4 @@
-import type {FilterState, SliderConfigType, SortOptionType} from "../types/types";
+import type {AuthState, FilterState, SliderConfigType, SortOptionType} from "../types/types";
 
 export const SORT_OPTIONS: SortOptionType[] = [
     {value: "popular", label: "Популярности"},
@@ -13,7 +13,7 @@ export const SLIDER_CONFIG: SliderConfigType = {
     yearRange: [1980, 2020]
 }
 
-export const INITIAL_STATE: FilterState = {
+export const FILTER_INITIAL_STATE: FilterState = {
     sortBy: '',
     selectedGenres: [],
     yearRange: SLIDER_CONFIG.yearRange,
@@ -22,3 +22,13 @@ export const INITIAL_STATE: FilterState = {
 }
 
 export const PAGES_LIMIT: number = 500;
+
+export const AUTH_INITIAL_STATE: AuthState = {
+    token: null,
+    userId: null,
+    loading: true,
+};
+
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+export const SET_LOADING = "SET_LOADING";
