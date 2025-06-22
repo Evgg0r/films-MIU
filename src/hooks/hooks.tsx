@@ -6,6 +6,9 @@ import {fetchData} from "../api/fetch";
 import {MOVIE_URL, URL_MOVIE_LIST, URL_POPULAR_LIST, URL_TOP_RATED_LIST} from "../constants/urls";
 import {ModalContext} from "../Context/ModalContext";
 import {mutateFavoriteFilm} from "../components/FavoriteButton/mutateFavoriteFilm.ts";
+import {useDispatch, useSelector} from "react-redux";
+import type {RootState} from "../redux/store.ts";
+import {login, setLoading} from "../redux/reducers/authReducer.tsx";
 
 export function useFilterContext(): FilterContextType {
     return useContext(FilterContext);
@@ -91,7 +94,8 @@ export const useModal = () => {
 };
 
 export const useMovieFavorites = () => {
-    const userId = useAuth();
+    const auth = useSelector((state: RootState) => state.auth);
+    const userId = auth.userId;
     const [favorites, setFavorites] = useState<number[]>([]);
 
     useEffect(() => {
@@ -110,7 +114,8 @@ export const useToggleFavoriteMovie = (
     _favorites: number[],
     setFavorites: React.Dispatch<React.SetStateAction<number[]>>
 ) => {
-    const userId = useAuth();
+    const auth = useSelector((state: RootState) => state.auth);
+    const userId = auth.userId;
 
     const toggleFavorite = async (movieId: number, isFav: boolean) => {
         const url = `https://api.themoviedb.org/3/account/${userId}/favorite`;
@@ -136,3 +141,18 @@ export const useToggleFavoriteMovie = (
 
     return { toggleFavorite };
 };
+
+export function useInitAuth() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const token = localStorage.getItem("user_token");
+        const id = localStorage.getItem("user__id");
+
+        if (token && id) {
+            dispatch(login(token, Number(id)));
+        }
+
+        dispatch(setLoading(false));
+    }, []);
+}

@@ -1,4 +1,5 @@
 import type {Dispatch, ReactNode} from "react";
+import {LOGIN, LOGOUT, SET_LOADING} from "../constants/constants.ts";
 
 
 export type Genre = {
@@ -154,5 +155,28 @@ export type ModalContextType = {
     currentModal: ModalType;
 };
 
+export type AuthState = {
+    token: string | null;
+    userId: number | null;
+    loading: boolean;
+};
 
+export type LoginAction = {
+    type: typeof LOGIN;
+    payload: {
+        token: string;
+        userId: number;
+    };
+}
+
+export type LogoutAction = {
+    type: typeof LOGOUT;
+}
+
+export type SetLoadingAction  = {
+    type: typeof SET_LOADING;
+    payload: boolean;
+}
+
+export type AuthAction = LoginAction | LogoutAction | SetLoadingAction;
 

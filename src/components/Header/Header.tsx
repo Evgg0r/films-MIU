@@ -1,11 +1,16 @@
 import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import {AccountCircle, ExitToApp} from "@mui/icons-material";
-import {useAuth, useModal} from "../../hooks/hooks";
+import {useModal} from "../../hooks/hooks";
+import {useDispatch, useSelector} from "react-redux";
+import type {RootState} from "../../redux/store";
+import {logout} from "../../redux/reducers/authReducer";
 
 
 export function Header() {
     const {openModal} = useModal();
-    const {token, logout} = useAuth();
+    const auth = useSelector((state: RootState) => state.auth);
+    const dispatch = useDispatch();
+
 
     return (
         <>
@@ -17,7 +22,7 @@ export function Header() {
                         Фильмы
                     </Typography>
                     <Box>
-                        {!token ? (
+                        {!auth.token ? (
                             <IconButton
                             size="large"
                             color="inherit"
@@ -32,7 +37,7 @@ export function Header() {
                             size="large"
                             color="inherit"
                             aria-label="account exit"
-                            onClick={()=> logout()}
+                            onClick={() => dispatch(logout())}
                         >
                             <ExitToApp/>
                         </IconButton>

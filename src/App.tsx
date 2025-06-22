@@ -3,7 +3,7 @@ import {Header} from "./components/Header/Header";
 import {Filters} from "./components/Filters/Filters";
 import {Box, Typography} from '@mui/material';
 import {MovieCard} from "./components/MovieСard/MovieСard";
-import {useAuth, useLoadMovies} from "./hooks/hooks";
+import {useInitAuth, useLoadMovies} from "./hooks/hooks";
 import type {Movie, MovieResponse} from "./types/types";
 import {FilterProvider} from "./Context/FilterContext";
 import {Routes, Route} from 'react-router-dom';
@@ -11,12 +11,17 @@ import {MovieDetails} from './components/MovieDetails/MovieDetails';
 import {LoginPage} from "./components/LoginPage/LoginPage";
 import {ModalProvider} from "./Context/ModalContext";
 import {ModalsContainer} from "./components/ModalsContainer/ModalsContainer";
+import {useSelector} from "react-redux";
+import type {RootState} from "./redux/store.ts";
 
 export function App() {
-    const { token, loading } = useAuth();
-    if (loading) return null;
+    useInitAuth();
+    const auth = useSelector((state: RootState) => state.auth);
 
-    if (!token) {
+
+    if (auth.loading) return null;
+
+    if (!auth.token) {
         return (
                 <ModalProvider>
                     <Header/>

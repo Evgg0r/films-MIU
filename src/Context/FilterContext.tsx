@@ -1,9 +1,9 @@
 import {createContext, useReducer} from "react";
 import type {FilterAction, FilterContextType, FilterProviderProps, FilterState} from "../types/types.ts";
-import {INITIAL_STATE} from "../constants/constants.ts";
+import {FILTER_INITIAL_STATE} from "../constants/constants.ts";
 
 export const FilterContext = createContext<FilterContextType>({
-    state: INITIAL_STATE,
+    state: FILTER_INITIAL_STATE,
     dispatch: () => {},
     });
 
@@ -18,7 +18,7 @@ function reducer(state: FilterState, action: FilterAction) {
         case 'setPage':
             return {...state, page: action.value};
         case 'reset':
-            return INITIAL_STATE
+            return FILTER_INITIAL_STATE
         case 'setQuery':
             return { ...state, query: action.value, page: 1 }
         default:
@@ -27,7 +27,7 @@ function reducer(state: FilterState, action: FilterAction) {
 }
 
 export function FilterProvider({children}: FilterProviderProps) {
-    const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
+    const [state, dispatch] = useReducer(reducer, FILTER_INITIAL_STATE)
 
     return (
         <FilterContext.Provider value={{ state, dispatch }}>
