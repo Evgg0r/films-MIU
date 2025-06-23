@@ -18,12 +18,16 @@ import {
 } from "@mui/material";
 import {CheckBox, CheckBoxOutlineBlank, Close, Search} from "@mui/icons-material";
 import type {FiltersProps, Genre} from "../../types/types.ts";
-import {useFilterContext, useLoadGenres} from "../../hooks/hooks.tsx";
+import { useLoadGenres} from "../../hooks/hooks.tsx";
 import {PAGES_LIMIT, SLIDER_CONFIG, SORT_OPTIONS} from "../../constants/constants.ts";
 import {memo, useCallback, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import type {RootState} from "../../redux/store.ts";
+import {resetFilters, setPage, setQuery, setSelectedGenres, setSortBy, setYearRange} from "../../redux/reducers/filterReducer.ts";
 
 export const Filters = memo(( { totalPages }: FiltersProps) => {
-    const { state, dispatch } = useFilterContext();
+    const filterState = useSelector((state: RootState) => state.filter);
+    const dispatch = useDispatch();
     const genres: Genre[] = useLoadGenres();
 
     const visiblePages = useMemo(() => {
@@ -31,8 +35,8 @@ export const Filters = memo(( { totalPages }: FiltersProps) => {
     }, [totalPages]);
 
     const safePage = useMemo(() => {
-        return Math.min(state.page, visiblePages);
-    }, [state.page, visiblePages]);
+        return Math.min(filterState.page, visiblePages);
+    }, [filterState.page, visiblePages]);
 
     const genreOptions = useMemo(
         () => genres.map((genre) => genre.name),
@@ -41,41 +45,41 @@ export const Filters = memo(( { totalPages }: FiltersProps) => {
 
     const handleGenresChange = useCallback(
         (_: any, value: string[]) => {
-            dispatch({ type: 'setSelectedGenres', value });
+            dispatch(setSelectedGenres(value));
         },
         [dispatch]
     );
 
     const handleYearChange = useCallback(
         (_: Event, newValue: number | number[]) => {
-            dispatch({ type: 'setYearRange', value: newValue as [number, number] });
+            dispatch(setYearRange(newValue as [number, number]));
         },
         [dispatch]
     );
 
     const handleSortChange = useCallback(
         (event: SelectChangeEvent) => {
-            dispatch({ type: 'setSortBy', value: event.target.value });
+            dispatch(setSortBy(event.target.value));
         },
         [dispatch]
     );
 
     const handleQueryChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch({ type: 'setQuery', value: event.target.value });
+            dispatch(setQuery(event.target.value));
         },
         [dispatch]
     );
 
     const handlePageChange = useCallback(
         (_: React.ChangeEvent<unknown>, value: number) => {
-            dispatch({ type: 'setPage', value });
+            dispatch(setPage(value));
         },
         [dispatch]
     );
 
     const handleResetFilters = useCallback(() => {
-        dispatch({ type: 'reset' });
+        dispatch(resetFilters());
     }, [dispatch]);
 
     return (
@@ -122,7 +126,7 @@ export const Filters = memo(( { totalPages }: FiltersProps) => {
                     placeholder="Поиск..."
                     fullWidth
                     sx={{mt: 1}}
-                    value={state.query}
+                    value={filterState.query}
                     onChange={handleQueryChange}
                     InputProps={{
                         endAdornment: (
@@ -141,7 +145,7 @@ export const Filters = memo(( { totalPages }: FiltersProps) => {
                 >
                     <InputLabel>Сортировать по:</InputLabel>
                     <Select
-                        value={state.sortBy}
+                        value={filterState.sortBy}
                         onChange={handleSortChange}>
                         {SORT_OPTIONS.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -159,7 +163,7 @@ export const Filters = memo(( { totalPages }: FiltersProps) => {
                     Год релиза:
                 </Typography>
                 <Slider
-                    value={state.yearRange}
+                    value={filterState.yearRange}
                     onChange={handleYearChange}
                     valueLabelDisplay="auto"
                     max={SLIDER_CONFIG.yearMax}
@@ -176,7 +180,7 @@ export const Filters = memo(( { totalPages }: FiltersProps) => {
                     multiple
                     disableCloseOnSelect
                     options={genreOptions}
-                    value={state.selectedGenres}
+                    value={filterState.selectedGenres}
                     onChange={handleGenresChange}
                     getOptionLabel={(option) => option}
                     renderOption={(props, option, {selected}) => {

@@ -2,11 +2,13 @@ import {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import type {ModalProps} from "../../types/types";
 import { isEmail } from 'validator';
-import {useModal} from "../../hooks/hooks";
+import {useDispatch} from "react-redux";
+import {closeModal, openModal} from "../../redux/reducers/modalReducer.ts";
+import {MODAL_OPTIONS} from "../../constants/constants.ts";
 
 export function RequestTokenModal({open, onClose}: ModalProps) {
     const [email, setEmail] = useState('');
-    const {openModal} = useModal();
+    const dispatch = useDispatch();
     const [error, setError] = useState(false);
 
     const handleChange = () => {
@@ -16,7 +18,7 @@ export function RequestTokenModal({open, onClose}: ModalProps) {
         }
         setError(false);
         setEmail("");
-        openModal('enterToken')
+        dispatch(openModal(MODAL_OPTIONS.enterToken))
     };
 
     return (
@@ -57,7 +59,7 @@ export function RequestTokenModal({open, onClose}: ModalProps) {
                         onClick={() => {
                             setError(false);
                             setEmail('');
-                            onClose();
+                            dispatch(closeModal());
                         }}
                         color="primary"
                     >Отмена</Button>

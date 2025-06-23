@@ -1,9 +1,10 @@
 import {Box, Button, Typography} from "@mui/material";
-import {useModal} from "../../hooks/hooks";
+import {useDispatch} from "react-redux";
+import {openModal} from "../../redux/reducers/modalReducer.ts";
 
 
 export function LoginPage() {
-    const {openModal} = useModal();
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -14,7 +15,7 @@ export function LoginPage() {
                 <Button
                     sx={{mt: 4}}
                     variant="contained"
-                    onClick={() => openModal('requestToken')}
+                    onClick={() => dispatch(openModal('requestToken'))}
                 >Войти
                 </Button>
             </Box>
