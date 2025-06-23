@@ -1,25 +1,25 @@
 import {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import type {ModalProps} from "../../types/types";
-import {useModal} from "../../hooks/hooks";
 import {HARD_CODED_TOKEN, HARD_CODED_USER_ID} from "../../constants/urls";
 import {useDispatch} from "react-redux";
-import {login} from "../../redux/reducers/authReducer.tsx";
+import {login} from "../../redux/reducers/authReducer.ts";
+import {closeModal, openModal} from "../../redux/reducers/modalReducer.ts";
+import {MODAL_OPTIONS} from "../../constants/constants.ts";
 
 export function EnterTokenModal({open, onClose}: ModalProps) {
     const [token, setToken] = useState("");
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
-    const {openModal, closeModal} = useModal();
 
     const handleSubmit = () => {
         if (token.trim().length < 10) {
             setError(true);
             return;
         }
-        setError(true);
+        setError(false);
         dispatch(login(HARD_CODED_TOKEN, HARD_CODED_USER_ID)); // ВРЕМЕННО: пока не подключена реальная отправка на почту — токен и userId захардкожен
-        closeModal()
+        dispatch(closeModal());
     };
 
 
@@ -59,14 +59,14 @@ export function EnterTokenModal({open, onClose}: ModalProps) {
                     onClick={() => {
                         setError(false);
                         setToken('');
-                        openModal('requestToken')
+                        dispatch(openModal(MODAL_OPTIONS.requestToken))
                     }}
                     color="primary"
                 >Отмена</Button>
-                <Button
-                    onClick={handleSubmit}
-                    color="primary"
-                >Ок</Button>
+                    <Button
+                        onClick={handleSubmit}
+                        color="primary"
+                    >Ок</Button>
             </DialogActions>
         </Dialog>
     )

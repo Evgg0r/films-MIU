@@ -1,5 +1,13 @@
 import type {Dispatch, ReactNode} from "react";
-import {LOGIN, LOGOUT, SET_LOADING} from "../constants/constants.ts";
+import {
+    CLOSE_MODAL,
+    LOGIN,
+    LOGOUT,
+    MODAL_OPTIONS,
+    OPEN_MODAL, RESET,
+    SET_LOADING, SET_PAGE, SET_QUERY, SET_SELECTED_GENRES,
+    SET_SORT_BY, SET_YEAR_RANGE
+} from "../constants/constants.ts";
 
 
 export type Genre = {
@@ -9,7 +17,7 @@ export type Genre = {
 
 export type FilterContextType = {
     state: FilterState;
-    dispatch: Dispatch<FilterAction>;
+    dispatch: Dispatch<FilterActionCont>;
 };
 
 export type FilterState = {
@@ -20,7 +28,7 @@ export type FilterState = {
     query: string,
 }
 
-export type FilterAction =
+export type FilterActionCont =
     | {type: 'setSortBy'; value: string}
     | {type: 'setYearRange'; value: [number, number]}
     | {type: 'setSelectedGenres'; value: string[]}
@@ -145,9 +153,9 @@ export type FavoriteMoviesResponse = {
     total_pages: number;
     total_results: number;
 };
-export type ModalKey = 'requestToken' | 'enterToken';
+export type ModalKey = keyof typeof MODAL_OPTIONS;
 
-export type ModalType = ModalKey | null;
+export type ModalType = typeof MODAL_OPTIONS[ModalKey] | null;
 
 export type ModalContextType = {
     openModal: (type: ModalKey) => void;
@@ -180,3 +188,47 @@ export type SetLoadingAction  = {
 
 export type AuthAction = LoginAction | LogoutAction | SetLoadingAction;
 
+export type ModalState = {
+    currentModal: ModalType;
+};
+
+export type OpenAction = {
+   type: typeof OPEN_MODAL;
+    payload: ModalType;
+};
+
+export type CloseAction = {
+    type: typeof CLOSE_MODAL;
+};
+
+export type ModalAction = OpenAction | CloseAction;
+
+export type SetSortByAction = {
+    type: typeof SET_SORT_BY;
+    payload: string
+}
+
+export type SetYearRangeAction = {
+    type: typeof SET_YEAR_RANGE;
+    payload: [number, number]
+}
+
+export type SetSelectedGenresAction = {
+    type: typeof SET_SELECTED_GENRES;
+    payload: string[]
+}
+
+export type SetPageAction = {
+    type: typeof SET_PAGE;
+    payload: number
+}
+
+export type ResetAction = {
+    type: typeof RESET
+}
+
+export type SetQueryAction = {
+    type: typeof SET_QUERY; payload: string
+}
+
+export type FilterAction = SetSortByAction | SetYearRangeAction | SetSelectedGenresAction | SetPageAction | ResetAction | SetQueryAction;

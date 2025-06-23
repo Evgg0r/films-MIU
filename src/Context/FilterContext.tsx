@@ -1,5 +1,5 @@
 import {createContext, useReducer} from "react";
-import type {FilterAction, FilterContextType, FilterProviderProps, FilterState} from "../types/types.ts";
+import type {FilterActionCont, FilterContextType, FilterProviderProps, FilterState} from "../types/types.ts";
 import {FILTER_INITIAL_STATE} from "../constants/constants.ts";
 
 export const FilterContext = createContext<FilterContextType>({
@@ -7,7 +7,7 @@ export const FilterContext = createContext<FilterContextType>({
     dispatch: () => {},
     });
 
-function reducer(state: FilterState, action: FilterAction) {
+function reducer(state: FilterState, action: FilterActionCont) {
     switch (action.type) {
         case 'setSortBy':
             return {...state, sortBy: action.value}

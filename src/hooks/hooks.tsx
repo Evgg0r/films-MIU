@@ -8,7 +8,7 @@ import {ModalContext} from "../Context/ModalContext";
 import {mutateFavoriteFilm} from "../components/FavoriteButton/mutateFavoriteFilm.ts";
 import {useDispatch, useSelector} from "react-redux";
 import type {RootState} from "../redux/store.ts";
-import {login, setLoading} from "../redux/reducers/authReducer.tsx";
+import {login, setLoading} from "../redux/reducers/authReducer.ts";
 
 export function useFilterContext(): FilterContextType {
     return useContext(FilterContext);
@@ -28,7 +28,7 @@ export function useLoadGenres() {
 
 export function useLoadMovies() {
     const [movies, setMovies] = useState<MovieResponse | null>(null);
-    const {state} = useFilterContext();
+    const state = useSelector((state: RootState) => state.filter);;
 
     useEffect(() => {
         let url = '';

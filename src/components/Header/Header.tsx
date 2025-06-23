@@ -1,13 +1,13 @@
 import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import {AccountCircle, ExitToApp} from "@mui/icons-material";
-import {useModal} from "../../hooks/hooks";
 import {useDispatch, useSelector} from "react-redux";
 import type {RootState} from "../../redux/store";
-import {logout} from "../../redux/reducers/authReducer";
+import {logout} from "../../redux/reducers/authReducer.ts";
+import {openModal} from "../../redux/reducers/modalReducer.ts";
+import {MODAL_OPTIONS} from "../../constants/constants.ts";
 
 
 export function Header() {
-    const {openModal} = useModal();
     const auth = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ export function Header() {
                             size="large"
                             color="inherit"
                             aria-label="account of current user"
-                            onClick={() => openModal('requestToken')}
+                            onClick={() => dispatch(openModal(MODAL_OPTIONS.requestToken))}
                         >
                             <AccountCircle/>
                         </IconButton>
