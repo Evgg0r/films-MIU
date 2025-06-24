@@ -1,14 +1,8 @@
 import type {Dispatch, ReactNode} from "react";
-import {
-    CLOSE_MODAL,
-    LOGIN,
-    LOGOUT,
-    MODAL_OPTIONS,
-    OPEN_MODAL, RESET,
-    SET_LOADING, SET_PAGE, SET_QUERY, SET_SELECTED_GENRES,
-    SET_SORT_BY, SET_YEAR_RANGE
-} from "../constants/constants.ts";
-
+import {CLOSE_MODAL, FETCH_FAVORITES_FAILURE, FETCH_FAVORITES_START, FETCH_FAVORITES_SUCCESS, FETCH_GENRES_FAILURE, FETCH_GENRES_START, FETCH_GENRES_SUCCESS, FETCH_MOVIE_INFO_FAILURE, FETCH_MOVIE_INFO_START, FETCH_MOVIE_INFO_SUCCESS, FETCH_MOVIES_FAILURE, FETCH_MOVIES_START, FETCH_MOVIES_SUCCESS, LOGIN, LOGOUT, MODAL_OPTIONS, OPEN_MODAL, RESET, SET_LOADING, SET_PAGE, SET_QUERY, SET_SELECTED_GENRES, SET_SORT_BY, SET_YEAR_RANGE, TOGGLE_FAVORITE_OPTIMISTIC, TOGGLE_FAVORITE_ROLLBACK} from "../constants/constants";
+import type {ThunkDispatch} from "redux-thunk";
+import type {RootState} from "../redux/store.ts";
+import type {AnyAction} from "redux";
 
 export type Genre = {
     id: string,
@@ -232,3 +226,115 @@ export type SetQueryAction = {
 }
 
 export type FilterAction = SetSortByAction | SetYearRangeAction | SetSelectedGenresAction | SetPageAction | ResetAction | SetQueryAction;
+
+export type GenresState = {
+    genres: Genre[];
+    loading: boolean;
+    error: string | null;
+};
+
+
+export type FetchGenresStartAction = {
+    type: typeof FETCH_GENRES_START;
+};
+
+export type FetchGenresSuccessAction = {
+    type: typeof FETCH_GENRES_SUCCESS;
+    payload: Genre[];
+};
+
+export type FetchGenresFailureAction = {
+    type: typeof FETCH_GENRES_FAILURE;
+    payload: string;
+};
+
+export type GenresAction =  FetchGenresStartAction | FetchGenresSuccessAction | FetchGenresFailureAction;
+
+export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
+
+export type MoviesState = {
+    movies: MovieResponse | null;
+    loading: boolean;
+    error: string | null;
+};
+
+export type FetchMoviesStartAction = {
+    type: typeof FETCH_MOVIES_START;
+};
+
+export type FetchMoviesSuccessAction = {
+    type: typeof FETCH_MOVIES_SUCCESS;
+    payload: MovieResponse;
+};
+
+export type FetchMoviesFailureAction = {
+    type: typeof FETCH_MOVIES_FAILURE;
+    payload: string;
+};
+
+export type MoviesAction = FetchMoviesStartAction | FetchMoviesSuccessAction | FetchMoviesFailureAction;
+
+export type MovieDetailsState = {
+    details: MovieDetailsResponse | null;
+    credits: CreditsResponse | null;
+    loading: boolean;
+    error: string | null;
+};
+
+export type FetchMovieInfoStartAction = {
+    type: typeof FETCH_MOVIE_INFO_START;
+};
+
+export type FetchMovieInfoSuccessAction = {
+    type: typeof FETCH_MOVIE_INFO_SUCCESS;
+    payload: {
+        details: MovieDetailsResponse;
+        credits: CreditsResponse;
+    };
+};
+
+export type FetchMovieInfoFailureAction = {
+    type: typeof FETCH_MOVIE_INFO_FAILURE;
+    payload: string;
+};
+
+export type MovieDetailsAction = FetchMovieInfoStartAction | FetchMovieInfoSuccessAction | FetchMovieInfoFailureAction;
+
+export type MovieFavoritesState = {
+    favorites: number[];         // ID избранных фильмов
+    loading: boolean;
+    error: string | null;
+};
+
+export type FetchFavoritesStartAction = {
+    type: typeof FETCH_FAVORITES_START;
+};
+
+export type FetchFavoritesSuccessAction = {
+    type: typeof FETCH_FAVORITES_SUCCESS;
+    payload: number[];
+};
+
+export type FetchFavoritesFailureAction = {
+    type: typeof FETCH_FAVORITES_FAILURE;
+    payload: string;
+};
+
+
+export type ToggleFavoriteOptimisticAction = {
+    type: typeof TOGGLE_FAVORITE_OPTIMISTIC;
+    payload: {
+        movieId: number;
+        isFav: boolean;
+    };
+};
+
+export type ToggleFavoriteRollbackAction = {
+    type: typeof TOGGLE_FAVORITE_ROLLBACK;
+    payload: {
+        movieId: number;
+        isFav: boolean;
+    };
+};
+
+export type MovieFavoritesAction = FetchFavoritesStartAction | FetchFavoritesSuccessAction | FetchFavoritesFailureAction | ToggleFavoriteOptimisticAction | ToggleFavoriteRollbackAction;

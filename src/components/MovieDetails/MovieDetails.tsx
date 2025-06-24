@@ -1,13 +1,15 @@
 import '@fontsource/roboto/400.css'
 import {Box, Typography} from '@mui/material';
 import {useParams} from 'react-router-dom';
-import {useLoadMovieInfo} from "../../hooks/hooks";
+import {useInitMovieInfo} from "../../hooks/hooks";
 import {convertServerDetailsToMovie,} from "../../utils/utils";
 import {MovieInfoDetails} from "../MovieInfoDetails/MovieInfoDetails";
 import {MovieActorsInfo} from "../MovieActorsInfo/MovieActorsInfo";
 import {MovieTitleInfo} from "../MovieTitleInfo/MovieTitleInfo";
 import {MovieBackButton} from "../MovieBackButton/MovieBackButton";
 import {MoviePoster} from "../MoviePoster/MoviePoster";
+import {useSelector} from "react-redux";
+import type {RootState} from "../../redux/store.ts";
 
 export function MovieDetails() {
     const {id} = useParams<{ id: string }>();
@@ -16,7 +18,8 @@ export function MovieDetails() {
         return null
     }
 
-    const {details, credits} = useLoadMovieInfo(id);
+    useInitMovieInfo(id);
+    const { details, credits} = useSelector((state: RootState) => state.moviesDetails);
 
     if (!details || !credits) {
         return <Typography p={4}>Загрузка данных…</Typography>;

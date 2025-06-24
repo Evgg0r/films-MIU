@@ -1,12 +1,5 @@
 import type {AuthState, FilterState, ModalState, SliderConfigType, SortOptionType} from "../types/types";
-import {
-    resetFilters,
-    setPage,
-    setQuery,
-    setSelectedGenres,
-    setSortBy,
-    setYearRange
-} from "../redux/reducers/filterReducer.ts";
+
 
 export const SORT_OPTIONS: SortOptionType[] = [
     {value: "popular", label: "Популярности"},
@@ -59,11 +52,46 @@ export const SET_PAGE = 'SET_PAGE';
 export const RESET = 'RESET';
 export const SET_QUERY = 'SET_QUERY';
 
-export const FILTER_ACTIONS = {
-    setSortBy,
-    setSelectedGenres,
-    setYearRange,
-    setPage,
-    resetFilters,
-    setQuery,
+export const GENRES_INITIAL_STATE = {
+    genres: [],
+    loading: false,
+    error: null,
 };
+
+export const FETCH_GENRES_START = 'FETCH_GENRES_START';
+export const FETCH_GENRES_SUCCESS = 'FETCH_GENRES_SUCCESS'
+export const FETCH_GENRES_FAILURE = 'FETCH_GENRES_FAILURE';
+
+export const MOVIES_INITIAL_STATE = {
+    movies: null,
+    loading: false,
+    error: null
+};
+
+export const FETCH_MOVIES_START = "FETCH_MOVIES_START";
+export const FETCH_MOVIES_SUCCESS = "FETCH_MOVIES_SUCCESS";
+export const FETCH_MOVIES_FAILURE = "FETCH_MOVIES_FAILURE";
+
+export const MOVIE_DETAILS_INITIAL_STATE = {
+    details: null,
+    credits: null,
+    loading: false,
+    error: null
+};
+
+export const FETCH_MOVIE_INFO_START = "FETCH_MOVIE_INFO_START";
+export const FETCH_MOVIE_INFO_SUCCESS = "FETCH_MOVIE_INFO_SUCCESS";
+export const FETCH_MOVIE_INFO_FAILURE = "FETCH_MOVIE_INFO_FAILURE";
+
+export const MOVIE_FAVORITES_INITIAL_STATE = {
+    favorites: [],
+    loading: false,
+    error: null,
+};
+
+export const FETCH_FAVORITES_START = "FETCH_FAVORITES_START";
+export const FETCH_FAVORITES_SUCCESS = "FETCH_FAVORITES_SUCCESS";
+export const FETCH_FAVORITES_FAILURE = "FETCH_FAVORITES_FAILURE";
+
+export const TOGGLE_FAVORITE_OPTIMISTIC = "TOGGLE_FAVORITE_OPTIMISTIC";
+export const TOGGLE_FAVORITE_ROLLBACK = "TOGGLE_FAVORITE_ROLLBACK";

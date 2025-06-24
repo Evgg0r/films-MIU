@@ -1,14 +1,28 @@
 import {useContext, useEffect, useState} from "react";
 import {FilterContext} from "../Context/FilterContext";
-import type {AuthContextType, CreditsResponse, FavoriteMoviesResponse, FilterContextType, Genre, MovieDetailsResponse, MovieResponse} from "../types/types";
+import type {
+    AppDispatch,
+    AuthContextType,
+    CreditsResponse,
+    FavoriteMoviesResponse,
+    FilterContextType,
+    Genre,
+    MovieDetailsResponse,
+    MovieResponse
+} from "../types/types";
 import {AuthContext} from "../Context/AuthContext";
 import {fetchData} from "../api/fetch";
 import {MOVIE_URL, URL_MOVIE_LIST, URL_POPULAR_LIST, URL_TOP_RATED_LIST} from "../constants/urls";
 import {ModalContext} from "../Context/ModalContext";
-import {mutateFavoriteFilm} from "../components/FavoriteButton/mutateFavoriteFilm.ts";
+import {mutateFavoriteFilm} from "../components/FavoriteButton/mutateFavoriteFilm";
 import {useDispatch, useSelector} from "react-redux";
-import type {RootState} from "../redux/store.ts";
-import {login, setLoading} from "../redux/reducers/authReducer.ts";
+import type {RootState} from "../redux/store";
+import {login, setLoading} from "../redux/reducers/authReducer";
+import {fetchGenres} from "../redux/thunks/genresThunks";
+import {fetchMovies} from "../redux/thunks/moviesThunks";
+import {fetchMovieInfo} from "../redux/thunks/movieDetailsThunks";
+import {fetchMovieFavorites} from "../redux/thunks/movieFavoritesThunks";
+
 
 export function useFilterContext(): FilterContextType {
     return useContext(FilterContext);
@@ -142,6 +156,8 @@ export const useToggleFavoriteMovie = (
     return { toggleFavorite };
 };
 
+//  Вышеуказаные хухи используют контекст
+
 export function useInitAuth() {
     const dispatch = useDispatch();
 
@@ -155,4 +171,42 @@ export function useInitAuth() {
 
         dispatch(setLoading(false));
     }, []);
+}
+
+export function useInitGenres() {
+    const dispatch: AppDispatch = useDispatch();
+    const token = useSelector((state: RootState) => state.auth.token);
+
+    useEffect(() => {
+        if (token) {
+            dispatch(fetchGenres());
+        }
+    }, [dispatch]);
+}
+
+export function useInitMovies() {
+    const dispatch: AppDispatch = useDispatch();
+    const filter = useSelector((state: RootState) => state.filter);
+
+    useEffect(() => {
+        dispatch(fetchMovies());
+    }, [dispatch, filter.query, filter.sortBy, filter.page]);
+}
+
+export function useInitMovieInfo(movieId: string) {
+    const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+        if (movieId) {
+            dispatch(fetchMovieInfo(movieId));
+        }
+    }, [dispatch, movieId]);
+}
+
+export function useInitFavorites() {
+    const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchMovieFavorites());
+    }, [dispatch]);
 }

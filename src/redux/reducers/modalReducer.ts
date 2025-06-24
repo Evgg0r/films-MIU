@@ -1,5 +1,5 @@
-import {CLOSE_MODAL, MODAL_INITIAL_STATE, OPEN_MODAL} from "../../constants/constants.ts";
-import type {CloseAction, ModalAction, ModalState, ModalType, OpenAction} from "../../types/types.ts";
+import {CLOSE_MODAL, MODAL_INITIAL_STATE, OPEN_MODAL} from "../../constants/constants";
+import type {CloseAction, ModalAction, ModalState, ModalType, OpenAction} from "../../types/types";
 
 export function modalReducer(state = MODAL_INITIAL_STATE, action: ModalAction): ModalState  {
     switch (action.type) {

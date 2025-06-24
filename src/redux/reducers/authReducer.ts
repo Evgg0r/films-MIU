@@ -1,7 +1,6 @@
 import type {AuthAction, AuthState, LoginAction, LogoutAction, SetLoadingAction} from "../../types/types";
 import {AUTH_INITIAL_STATE, LOGIN, LOGOUT, SET_LOADING} from "../../constants/constants";
 
-
 export function authReducer(state = AUTH_INITIAL_STATE, action: AuthAction): AuthState {
     switch (action.type) {
         case LOGIN:
