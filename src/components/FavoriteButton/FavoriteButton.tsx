@@ -1,12 +1,16 @@
 import {Snackbar, Alert, IconButton} from '@mui/material';
 import {memo, useCallback, useState} from 'react';
-import {useMovieFavorites, useToggleFavoriteMovie} from '../../hooks/hooks.tsx';
 import {Star,StarBorder} from "@mui/icons-material";
+import type {AppDispatch} from "../../types/types.ts";
+import {useDispatch, useSelector} from "react-redux";
+import type {RootState} from "../../redux/store.ts";
+import {toggleFavoriteThunk} from "../../redux/thunks/toggleFavoriteMovie.ts";
 
 export const FavoriteButton = memo(({movieId}: { movieId: number })=> {
-    const { favorites, setFavorites } = useMovieFavorites();
-    const {toggleFavorite} = useToggleFavoriteMovie(favorites, setFavorites);
+    const favorites = useSelector((state: RootState) => state.movieFavorites.favorites);
+    const dispatch: AppDispatch = useDispatch();
     const isFav = favorites.includes(movieId);
+
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [severity, setSeverity] = useState<"error" | "info">("info");
@@ -16,7 +20,7 @@ export const FavoriteButton = memo(({movieId}: { movieId: number })=> {
         e.preventDefault();
 
         try {
-            await toggleFavorite(movieId, isFav);
+            await dispatch(toggleFavoriteThunk(movieId, isFav));
             setMessage(isFav ? "Удалено из избранного" : "Добавлено в избранное");
             setSeverity("info");
         } catch (error) {
@@ -26,7 +30,7 @@ export const FavoriteButton = memo(({movieId}: { movieId: number })=> {
         } finally {
             setOpen(true);
         }
-    }, [movieId, isFav, toggleFavorite]);
+    }, [movieId, isFav, dispatch]);
 
     return (
         <>

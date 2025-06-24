@@ -17,8 +17,7 @@ import {
     Typography
 } from "@mui/material";
 import {CheckBox, CheckBoxOutlineBlank, Close, Search} from "@mui/icons-material";
-import type {FiltersProps, Genre} from "../../types/types.ts";
-import { useLoadGenres} from "../../hooks/hooks.tsx";
+import type {FiltersProps} from "../../types/types.ts";
 import {PAGES_LIMIT, SLIDER_CONFIG, SORT_OPTIONS} from "../../constants/constants.ts";
 import {memo, useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -28,7 +27,7 @@ import {resetFilters, setPage, setQuery, setSelectedGenres, setSortBy, setYearRa
 export const Filters = memo(( { totalPages }: FiltersProps) => {
     const filterState = useSelector((state: RootState) => state.filter);
     const dispatch = useDispatch();
-    const genres: Genre[] = useLoadGenres();
+    const genres = useSelector((state: RootState) => state.genres.genres);
 
     const visiblePages = useMemo(() => {
         return Math.min(totalPages, PAGES_LIMIT);

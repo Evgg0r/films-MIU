@@ -1,5 +1,5 @@
-import type {FilterAction, FilterState, ResetAction, SetPageAction, SetQueryAction, SetSelectedGenresAction, SetSortByAction, SetYearRangeAction} from "../../types/types.ts";
-import {FILTER_INITIAL_STATE, RESET, SET_PAGE, SET_QUERY, SET_SELECTED_GENRES, SET_SORT_BY, SET_YEAR_RANGE} from "../../constants/constants.ts";
+import type {FilterAction, FilterState, ResetAction, SetPageAction, SetQueryAction, SetSelectedGenresAction, SetSortByAction, SetYearRangeAction} from "../../types/types";
+import {FILTER_INITIAL_STATE, RESET, SET_PAGE, SET_QUERY, SET_SELECTED_GENRES, SET_SORT_BY, SET_YEAR_RANGE} from "../../constants/constants";
 
 export function filterReducer(state : FilterState = FILTER_INITIAL_STATE, action: FilterAction) {
     switch (action.type) {
