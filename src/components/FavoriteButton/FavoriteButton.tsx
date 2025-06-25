@@ -1,9 +1,8 @@
 import {Snackbar, Alert, IconButton} from '@mui/material';
 import {memo, useCallback, useState} from 'react';
 import {Star,StarBorder} from "@mui/icons-material";
-import type {AppDispatch} from "../../types/types.ts";
 import {useDispatch, useSelector} from "react-redux";
-import type {RootState} from "../../redux/store.ts";
+import type {AppDispatch, RootState} from "../../redux/store.ts";
 import {toggleFavoriteThunk} from "../../redux/thunks/toggleFavoriteMovie.ts";
 
 export const FavoriteButton = memo(({movieId}: { movieId: number })=> {
@@ -20,7 +19,7 @@ export const FavoriteButton = memo(({movieId}: { movieId: number })=> {
         e.preventDefault();
 
         try {
-            await dispatch(toggleFavoriteThunk(movieId, isFav));
+            await dispatch(toggleFavoriteThunk({ movieId, isFav }));
             setMessage(isFav ? "Удалено из избранного" : "Добавлено в избранное");
             setSeverity("info");
         } catch (error) {

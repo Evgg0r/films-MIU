@@ -3,8 +3,8 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} fr
 import type {ModalProps} from "../../types/types";
 import {HARD_CODED_TOKEN, HARD_CODED_USER_ID} from "../../constants/urls";
 import {useDispatch} from "react-redux";
-import {login} from "../../redux/reducers/authReducer.ts";
-import {closeModal, openModal} from "../../redux/reducers/modalReducer.ts";
+import {login} from "../../redux/slices/authSlice.ts";
+import {closeModal, openModal} from "../../redux/slices/modalSlice.ts";
 import {MODAL_OPTIONS} from "../../constants/constants.ts";
 
 export function EnterTokenModal({open, onClose}: ModalProps) {
@@ -18,7 +18,7 @@ export function EnterTokenModal({open, onClose}: ModalProps) {
             return;
         }
         setError(false);
-        dispatch(login(HARD_CODED_TOKEN, HARD_CODED_USER_ID)); // ВРЕМЕННО: пока не подключена реальная отправка на почту — токен и userId захардкожен
+        dispatch(login({ token: HARD_CODED_TOKEN, userId: HARD_CODED_USER_ID })); // ВРЕМЕННО: пока не подключена реальная отправка на почту — токен и userId захардкожен
         dispatch(closeModal());
     };
 

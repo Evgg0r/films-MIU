@@ -3,7 +3,7 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} fr
 import type {ModalProps} from "../../types/types";
 import { isEmail } from 'validator';
 import {useDispatch} from "react-redux";
-import {closeModal, openModal} from "../../redux/reducers/modalReducer.ts";
+import {closeModal, openModal} from "../../redux/slices/modalSlice.ts";
 import {MODAL_OPTIONS} from "../../constants/constants.ts";
 
 export function RequestTokenModal({open, onClose}: ModalProps) {
