@@ -2,8 +2,8 @@ import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
 import {AccountCircle, ExitToApp} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
 import type {RootState} from "../../redux/store";
-import {logout} from "../../redux/reducers/authReducer.ts";
-import {openModal} from "../../redux/reducers/modalReducer.ts";
+import {logout} from "../../redux/slices/authSlice.ts";
+import {openModal} from "../../redux/slices/modalSlice.ts";
 import {MODAL_OPTIONS} from "../../constants/constants.ts";
 
 

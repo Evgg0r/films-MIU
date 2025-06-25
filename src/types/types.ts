@@ -1,8 +1,5 @@
 import type {Dispatch, ReactNode} from "react";
 import {CLOSE_MODAL, FETCH_FAVORITES_FAILURE, FETCH_FAVORITES_START, FETCH_FAVORITES_SUCCESS, FETCH_GENRES_FAILURE, FETCH_GENRES_START, FETCH_GENRES_SUCCESS, FETCH_MOVIE_INFO_FAILURE, FETCH_MOVIE_INFO_START, FETCH_MOVIE_INFO_SUCCESS, FETCH_MOVIES_FAILURE, FETCH_MOVIES_START, FETCH_MOVIES_SUCCESS, LOGIN, LOGOUT, MODAL_OPTIONS, OPEN_MODAL, RESET, SET_LOADING, SET_PAGE, SET_QUERY, SET_SELECTED_GENRES, SET_SORT_BY, SET_YEAR_RANGE, TOGGLE_FAVORITE_OPTIMISTIC, TOGGLE_FAVORITE_ROLLBACK} from "../constants/constants";
-import type {ThunkDispatch} from "redux-thunk";
-import type {RootState} from "../redux/store.ts";
-import type {AnyAction} from "redux";
 
 export type Genre = {
     id: string,
@@ -250,7 +247,6 @@ export type FetchGenresFailureAction = {
 
 export type GenresAction =  FetchGenresStartAction | FetchGenresSuccessAction | FetchGenresFailureAction;
 
-export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
 
 export type MoviesState = {
     movies: MovieResponse | null;

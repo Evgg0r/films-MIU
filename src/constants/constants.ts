@@ -1,4 +1,12 @@
-import type {AuthState, FilterState, ModalState, SliderConfigType, SortOptionType} from "../types/types";
+import type {
+    AuthState,
+    FilterState,
+    GenresState,
+    ModalState, MovieDetailsState, MovieFavoritesState,
+    MoviesState,
+    SliderConfigType,
+    SortOptionType
+} from "../types/types";
 
 
 export const SORT_OPTIONS: SortOptionType[] = [
@@ -52,7 +60,7 @@ export const SET_PAGE = 'SET_PAGE';
 export const RESET = 'RESET';
 export const SET_QUERY = 'SET_QUERY';
 
-export const GENRES_INITIAL_STATE = {
+export const GENRES_INITIAL_STATE: GenresState = {
     genres: [],
     loading: false,
     error: null,
@@ -62,7 +70,7 @@ export const FETCH_GENRES_START = 'FETCH_GENRES_START';
 export const FETCH_GENRES_SUCCESS = 'FETCH_GENRES_SUCCESS'
 export const FETCH_GENRES_FAILURE = 'FETCH_GENRES_FAILURE';
 
-export const MOVIES_INITIAL_STATE = {
+export const MOVIES_INITIAL_STATE: MoviesState = {
     movies: null,
     loading: false,
     error: null
@@ -72,7 +80,7 @@ export const FETCH_MOVIES_START = "FETCH_MOVIES_START";
 export const FETCH_MOVIES_SUCCESS = "FETCH_MOVIES_SUCCESS";
 export const FETCH_MOVIES_FAILURE = "FETCH_MOVIES_FAILURE";
 
-export const MOVIE_DETAILS_INITIAL_STATE = {
+export const MOVIE_DETAILS_INITIAL_STATE: MovieDetailsState = {
     details: null,
     credits: null,
     loading: false,
@@ -83,7 +91,7 @@ export const FETCH_MOVIE_INFO_START = "FETCH_MOVIE_INFO_START";
 export const FETCH_MOVIE_INFO_SUCCESS = "FETCH_MOVIE_INFO_SUCCESS";
 export const FETCH_MOVIE_INFO_FAILURE = "FETCH_MOVIE_INFO_FAILURE";
 
-export const MOVIE_FAVORITES_INITIAL_STATE = {
+export const MOVIE_FAVORITES_INITIAL_STATE: MovieFavoritesState = {
     favorites: [],
     loading: false,
     error: null,

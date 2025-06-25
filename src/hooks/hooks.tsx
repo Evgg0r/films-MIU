@@ -1,7 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {FilterContext} from "../Context/FilterContext";
 import type {
-    AppDispatch,
     AuthContextType,
     CreditsResponse,
     FavoriteMoviesResponse,
@@ -16,12 +15,12 @@ import {MOVIE_URL, URL_MOVIE_LIST, URL_POPULAR_LIST, URL_TOP_RATED_LIST} from ".
 import {ModalContext} from "../Context/ModalContext";
 import {mutateFavoriteFilm} from "../components/FavoriteButton/mutateFavoriteFilm";
 import {useDispatch, useSelector} from "react-redux";
-import type {RootState} from "../redux/store";
-import {login, setLoading} from "../redux/reducers/authReducer";
-import {fetchGenres} from "../redux/thunks/genresThunks";
+import type {AppDispatch, RootState} from "../redux/store";
+import {login, setLoading} from "../redux/slices/authSlice.ts";
+import {fetchGenres} from "../redux/thunks/genresThunks.ts";
 import {fetchMovies} from "../redux/thunks/moviesThunks";
-import {fetchMovieInfo} from "../redux/thunks/movieDetailsThunks";
 import {fetchMovieFavorites} from "../redux/thunks/movieFavoritesThunks";
+import {fetchMovieDetails} from "../redux/thunks/movieDetailsThunks.ts";
 
 
 export function useFilterContext(): FilterContextType {
@@ -155,18 +154,17 @@ export const useToggleFavoriteMovie = (
 
     return { toggleFavorite };
 };
-
 //  Вышеуказаные хухи используют контекст
 
 export function useInitAuth() {
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         const token = localStorage.getItem("user_token");
         const id = localStorage.getItem("user__id");
 
         if (token && id) {
-            dispatch(login(token, Number(id)));
+            dispatch(login({ token, userId: Number(id) }));
         }
 
         dispatch(setLoading(false));
@@ -181,7 +179,7 @@ export function useInitGenres() {
         if (token) {
             dispatch(fetchGenres());
         }
-    }, [dispatch]);
+    }, [dispatch, token]);
 }
 
 export function useInitMovies() {
@@ -198,7 +196,7 @@ export function useInitMovieInfo(movieId: string) {
 
     useEffect(() => {
         if (movieId) {
-            dispatch(fetchMovieInfo(movieId));
+            dispatch(fetchMovieDetails(Number(movieId)));
         }
     }, [dispatch, movieId]);
 }

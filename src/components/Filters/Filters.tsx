@@ -22,7 +22,7 @@ import {PAGES_LIMIT, SLIDER_CONFIG, SORT_OPTIONS} from "../../constants/constant
 import {memo, useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import type {RootState} from "../../redux/store.ts";
-import {resetFilters, setPage, setQuery, setSelectedGenres, setSortBy, setYearRange} from "../../redux/reducers/filterReducer.ts";
+import {resetFilters, setPage, setQuery, setSelectedGenres, setSortBy, setYearRange} from "../../redux/slices/filterSlice.ts";
 
 export const Filters = memo(( { totalPages }: FiltersProps) => {
     const filterState = useSelector((state: RootState) => state.filter);

@@ -4,7 +4,7 @@ import type {ModalKey, ModalProps} from "../../types/types";
 import type {FC} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import type {RootState} from "../../redux/store.ts";
-import {closeModal} from "../../redux/reducers/modalReducer.ts";
+import {closeModal} from "../../redux/slices/modalSlice.ts";
 
 const modalComponents: Record<ModalKey, FC<ModalProps>> = {
     requestToken: RequestTokenModal,
@@ -17,7 +17,7 @@ export function ModalsContainer() {
 
     if (!currentModal) return null;
 
-    const ModalComponent = modalComponents[currentModal];
+    const ModalComponent = modalComponents[currentModal as ModalKey];
 
     return <ModalComponent open={true} onClose={() => dispatch(closeModal())} />;
 }
