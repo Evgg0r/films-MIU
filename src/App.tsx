@@ -1,23 +1,21 @@
 import '@fontsource/roboto/300.css';
-import {Header} from "./components/Header/Header";
-import {Filters} from "./components/Filters/Filters";
-import {Box, Typography} from '@mui/material';
-import {MovieCard} from "./components/MovieСard/MovieСard";
-import {useInitAuth, useInitFavorites, useInitGenres, useInitMovies} from "./hooks/hooks";
-import type {Movie} from "./types/types";
-import {Routes, Route} from 'react-router-dom';
-import {MovieDetails} from './components/MovieDetails/MovieDetails';
-import {LoginPage} from "./components/LoginPage/LoginPage";
-import {ModalsContainer} from "./components/ModalsContainer/ModalsContainer";
-import {useSelector} from "react-redux";
-import type {RootState} from "./redux/store";
 
+import { useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
+
+import { Filters } from '@/components/Filters/Filters';
+import { Header } from '@/components/Header/Header';
+import { LoginPage } from '@/components/LoginPage/LoginPage';
+import { ModalsContainer } from '@/components/ModalsContainer/ModalsContainer';
+import { MovieDetails } from '@/components/MovieDetails/MovieDetails';
+import { MovieCard } from '@/components/MovieСard/MovieСard';
+import { useInitAuth, useInitFavorites, useMovies } from '@/hooks';
+import type { RootState } from '@/redux/store';
+import type { Movie } from '@/types/types';
 
 export function App() {
     useInitAuth();
-    useInitGenres()
-    useInitFavorites()
-
     const auth = useSelector((state: RootState) => state.auth);
 
     if (auth.loading) return null;
@@ -25,16 +23,16 @@ export function App() {
     if (!auth.token) {
         return (
             <>
-                <Header/>
-                <LoginPage/>
-                <ModalsContainer/>
+                <Header />
+                <LoginPage />
+                <ModalsContainer />
             </>
         );
     }
 
     return (
         <>
-            <Header/>
+            <Header />
             <Routes>
                 <Route path="/" element={<InnerApp />} />
                 <Route path="/movies/:id" element={<MovieDetails />} />
@@ -45,23 +43,17 @@ export function App() {
 }
 
 function InnerApp() {
-    useInitMovies();
-
-    const movies = useSelector((state: RootState) => state.movies.movies);
+    useInitFavorites();
+    const { movies } = useMovies();
 
     return (
         <Box display="flex" p={3} gap={1}>
-            <Filters totalPages={movies?.total_pages ?? 1}/>
+            <Filters totalPages={movies?.total_pages ?? 1} />
             <Box flexGrow={1}>
-                <Box
-                    display="flex"
-                    flexWrap="wrap"
-                    gap={2}
-                    justifyContent="flex-start"
-                >
+                <Box display="flex" flexWrap="wrap" gap={2} justifyContent="flex-start">
                     {movies?.results?.length ? (
                         movies.results.map((movie: Movie) => (
-                            <MovieCard key={movie.id} movie={movie}/>
+                            <MovieCard key={movie.id} movie={movie} />
                         ))
                     ) : (
                         <Box
@@ -72,17 +64,13 @@ function InnerApp() {
                             width="100%"
                             p={10}
                         >
-                            <Typography
-                                variant="h5"
-                                fontWeight={500}
-                            >
-                                Фильтры не установлены.
-                                Нет фильмов для отображения
+                            <Typography variant="h5" fontWeight={500}>
+                                Фильтры не установлены. Нет фильмов для отображения
                             </Typography>
                         </Box>
                     )}
                 </Box>
             </Box>
         </Box>
-    )
+    );
 }

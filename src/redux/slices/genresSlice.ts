@@ -1,6 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {GENRES_INITIAL_STATE} from "../../constants/constants.ts";
-import {fetchGenres} from "../thunks/genresThunks.ts";
+import { createSlice } from '@reduxjs/toolkit';
+
+import { GENRES_INITIAL_STATE } from '@/constants/constants';
+import { fetchGenres } from '@/redux/thunks/genresThunks';
 
 const genresSlice = createSlice({
     name: 'genres',
@@ -23,4 +24,4 @@ const genresSlice = createSlice({
     },
 });
 
-export const genresReducerRTK = genresSlice.reducer;
+export const genresReducer = genresSlice.reducer;

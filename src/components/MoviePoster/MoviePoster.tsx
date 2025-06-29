@@ -1,13 +1,14 @@
-import {Box} from "@mui/material";
-import type {MoviePosterProps} from "../../types/types.ts";
+import { Box } from '@mui/material';
 
-export function MoviePoster({movieTitle, urlPoster}: MoviePosterProps) {
+import type { MoviePosterProps } from '@/types';
+
+export function MoviePoster({ movieTitle, urlPoster }: MoviePosterProps) {
     return (
         <Box
             component="img"
             src={`https://image.tmdb.org/t/p/w500${urlPoster}`}
             alt={movieTitle}
-            sx={{width: 300, height: 402}}
+            sx={{ width: 300, height: 402 }}
         />
-    )
+    );
 }

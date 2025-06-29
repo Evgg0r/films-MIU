@@ -1,5 +1,6 @@
-import {AUTH_INITIAL_STATE} from "../../constants/constants.ts";
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+
+import { AUTH_INITIAL_STATE } from '@/constants/constants';
 
 const authSlice = createSlice({
     name: 'auth',
@@ -20,6 +21,6 @@ const authSlice = createSlice({
     },
 });
 
-export const authReducerRTK = authSlice.reducer;
+export const authReducer = authSlice.reducer;
 
 export const { login, logout, setLoading } = authSlice.actions;

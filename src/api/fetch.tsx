@@ -1,16 +1,16 @@
 export async function fetchData(url: string) {
     try {
-        const token = localStorage.getItem("user_token");
+        const token = localStorage.getItem('user_token');
 
         if (!token) {
-            console.warn("Требуется авторизация");
-            throw new Error("Нет токена");
+            console.warn('Требуется авторизация');
+            throw new Error('Нет токена');
         }
 
         const res = await fetch(url, {
-            method: "GET",
+            method: 'GET',
             headers: {
-                accept: "application/json",
+                accept: 'application/json',
                 Authorization: `Bearer ${token}`,
             },
         });
@@ -21,7 +21,7 @@ export async function fetchData(url: string) {
 
         return await res.json();
     } catch (error) {
-        console.error("Ошибка в fetchData:", error);
+        console.error('Ошибка в fetchData:', error);
         throw error;
     }
 }
@@ -29,21 +29,21 @@ export async function fetchData(url: string) {
 export async function mutateData<T>(
     url: string,
     body: T,
-    method: "POST" | "PATCH" | "PUT" | "DELETE" = "POST"
+    method: 'POST' | 'PATCH' | 'PUT' | 'DELETE' = 'POST',
 ) {
     try {
-        const token = localStorage.getItem("user_token");
+        const token = localStorage.getItem('user_token');
 
         if (!token) {
-            console.warn("Требуется авторизация");
-            throw new Error("Нет токена");
+            console.warn('Требуется авторизация');
+            throw new Error('Нет токена');
         }
 
         const res = await fetch(url, {
             method,
             headers: {
-                "Content-Type": "application/json",
-                accept: "application/json",
+                'Content-Type': 'application/json',
+                accept: 'application/json',
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(body),
@@ -55,7 +55,7 @@ export async function mutateData<T>(
 
         return await res.json();
     } catch (error) {
-        console.error("Ошибка в mutateData:", error);
+        console.error('Ошибка в mutateData:', error);
         throw error;
     }
 }

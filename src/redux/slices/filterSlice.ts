@@ -1,14 +1,15 @@
-import {FILTER_INITIAL_STATE} from "../../constants/constants.ts";
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+
+import { FILTER_INITIAL_STATE } from '@/constants/constants.ts';
 
 const filterSlice = createSlice({
-    name: "filter",
+    name: 'filter',
     initialState: FILTER_INITIAL_STATE,
     reducers: {
         setSortBy(state, action: PayloadAction<string>) {
             state.sortBy = action.payload;
         },
-        setSelectedGenres(state, action: PayloadAction<string[]>) {
+        setSelectedGenres(state, action: PayloadAction<number[]>) {
             state.selectedGenres = action.payload;
         },
         setYearRange(state, action: PayloadAction<[number, number]>) {
@@ -26,12 +27,6 @@ const filterSlice = createSlice({
     },
 });
 
-export const filterReducerRTK = filterSlice.reducer;
-export const {
-    setSortBy,
-    setSelectedGenres,
-    setYearRange,
-    setPage,
-    setQuery,
-    resetFilters,
-} = filterSlice.actions;
+export const filterReducer = filterSlice.reducer;
+export const { setSortBy, setSelectedGenres, setYearRange, setPage, setQuery, resetFilters } =
+    filterSlice.actions;

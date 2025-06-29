@@ -1,14 +1,22 @@
-import {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
-import type {ModalProps} from "../../types/types";
-import {HARD_CODED_TOKEN, HARD_CODED_USER_ID} from "../../constants/urls";
-import {useDispatch} from "react-redux";
-import {login} from "../../redux/slices/authSlice.ts";
-import {closeModal, openModal} from "../../redux/slices/modalSlice.ts";
-import {MODAL_OPTIONS} from "../../constants/constants.ts";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+} from '@mui/material';
 
-export function EnterTokenModal({open, onClose}: ModalProps) {
-    const [token, setToken] = useState("");
+import { MODAL_OPTIONS } from '@/constants';
+import { HARD_CODED_TOKEN, HARD_CODED_USER_ID } from '@/constants/urls';
+import { login } from '@/redux/slices/authSlice';
+import { closeModal, openModal } from '@/redux/slices/modalSlice';
+import type { ModalProps } from '@/types';
+
+export function EnterTokenModal({ open, onClose }: ModalProps) {
+    const [token, setToken] = useState('');
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
 
@@ -21,7 +29,6 @@ export function EnterTokenModal({open, onClose}: ModalProps) {
         dispatch(login({ token: HARD_CODED_TOKEN, userId: HARD_CODED_USER_ID })); // ВРЕМЕННО: пока не подключена реальная отправка на почту — токен и userId захардкожен
         dispatch(closeModal());
     };
-
 
     return (
         <Dialog
@@ -36,22 +43,25 @@ export function EnterTokenModal({open, onClose}: ModalProps) {
                     borderRadius: 2,
                     boxShadow: 24,
                 },
-            }}>
-            <DialogTitle sx={{fontWeight: 500}}>Введите токен</DialogTitle>
-            <DialogContent sx={{
-                overflow: 'hidden'
-            }}>
+            }}
+        >
+            <DialogTitle sx={{ fontWeight: 500 }}>Введите токен</DialogTitle>
+            <DialogContent
+                sx={{
+                    overflow: 'hidden',
+                }}
+            >
                 <TextField
                     label={'ТОКЕН'}
                     variant="standard"
                     sx={{
-                        height: '47px'
+                        height: '47px',
                     }}
                     fullWidth
                     value={token}
                     onChange={(e) => setToken(e.target.value)}
                     error={error}
-                    helperText={error ? "Токен слишком короткий (минимум 10 символов)" : ""}
+                    helperText={error ? 'Токен слишком короткий (минимум 10 символов)' : ''}
                 />
             </DialogContent>
             <DialogActions>
@@ -59,15 +69,16 @@ export function EnterTokenModal({open, onClose}: ModalProps) {
                     onClick={() => {
                         setError(false);
                         setToken('');
-                        dispatch(openModal(MODAL_OPTIONS.requestToken))
+                        dispatch(openModal(MODAL_OPTIONS.requestToken));
                     }}
                     color="primary"
-                >Отмена</Button>
-                    <Button
-                        onClick={handleSubmit}
-                        color="primary"
-                    >Ок</Button>
+                >
+                    Отмена
+                </Button>
+                <Button onClick={handleSubmit} color="primary">
+                    Ок
+                </Button>
             </DialogActions>
         </Dialog>
-    )
+    );
 }
