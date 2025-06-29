@@ -1,16 +1,13 @@
-import {Box, Card, CardContent, CardMedia, Typography, Paper} from "@mui/material";
-import type {MovieCardProps} from "../../types/types";
-import {Link} from "react-router-dom";
-import {FavoriteButton} from "../FavoriteButton/FavoriteButton";
-import {memo} from "react";
+import { Link } from 'react-router-dom';
+import { Box, Card, CardContent, CardMedia, Paper, Typography } from '@mui/material';
 
+import { FavoriteButton } from '@/components/FavoriteButton';
+import type { MovieCardProps } from '@/types';
 
-export const MovieCard = memo(({movie}: MovieCardProps) => {
+export const MovieCard = ({ movie }: MovieCardProps) => {
     return (
-        <Paper component={Link}
-               to={`/movies/${movie.id}`}
-               sx={{textDecoration: 'none'}}>
-            <Card sx={{width: 296, height: 324}}>
+        <Paper component={Link} to={`/movies/${movie.id}`} sx={{ textDecoration: 'none' }}>
+            <Card sx={{ width: 296, height: 324 }}>
                 <CardMedia
                     component="img"
                     width="324"
@@ -25,14 +22,17 @@ export const MovieCard = memo(({movie}: MovieCardProps) => {
                 <CardContent>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Box display="flex" flexDirection="column">
-                            <Typography variant="h6"
-                                        noWrap
-                                        sx={{
-                                            maxWidth: 224,
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                        }}
-                            >{movie.title}</Typography>
+                            <Typography
+                                variant="h6"
+                                noWrap
+                                sx={{
+                                    maxWidth: 224,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            >
+                                {movie.title}
+                            </Typography>
                             <Typography variant="body2">Рейтинг {movie.vote_average}</Typography>
                         </Box>
                         <FavoriteButton movieId={movie.id} />
@@ -40,5 +40,5 @@ export const MovieCard = memo(({movie}: MovieCardProps) => {
                 </CardContent>
             </Card>
         </Paper>
-    )
-})
+    );
+};

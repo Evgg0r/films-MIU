@@ -1,41 +1,20 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { genresReducerRTK } from "./slices/genresSlice.ts";
-import {authReducerRTK} from "./slices/authSlice.ts";
-import {modalReducerRTK} from "./slices/modalSlice.ts";
-import {filterReducerRTK} from "./slices/filterSlice.ts";
-import {moviesReducerRTK} from "./slices/moviesSlice.ts";
-import {movieDetailsReducerRTK} from "./slices/movieDetailsSlice.ts";
-import {movieFavoritesReducerRTK} from "./slices/movieFavoritesSlice.ts";
+import { configureStore } from '@reduxjs/toolkit';
+
+import { authReducer } from '@/redux/slices/authSlice';
+import { filterReducer } from '@/redux/slices/filterSlice';
+import { genresReducer } from '@/redux/slices/genresSlice';
+import { modalReducer } from '@/redux/slices/modalSlice';
+import { movieFavoritesReducer } from '@/redux/slices/movieFavoritesSlice';
 
 export const store = configureStore({
     reducer: {
-        auth: authReducerRTK,
-        modal: modalReducerRTK,
-        filter: filterReducerRTK,
-        genres: genresReducerRTK,
-        movies: moviesReducerRTK,
-        moviesDetails: movieDetailsReducerRTK,
-        movieFavorites: movieFavoritesReducerRTK,
-    }
+        auth: authReducer,
+        modal: modalReducer,
+        filter: filterReducer,
+        genres: genresReducer,
+        movieFavorites: movieFavoritesReducer,
+    },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-// код для примера Redux
-// const rootReducer = combineReducers({
-//     auth: authReducer,
-//     modal: modalReducer,
-//     filter: filterReducer,
-//     genres: genresReducer,
-//     movies: moviesReducer,
-//     moviesDetails: movieDetailsReducer,
-//     movieFavorites: movieFavoritesReducer,
-// });
-//
-// export type RootState = ReturnType<typeof rootReducer>;
-//
-// export const store = createStore(
-//     rootReducer,
-//     undefined,
-//     applyMiddleware(thunk));

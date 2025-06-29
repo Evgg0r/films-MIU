@@ -1,12 +1,20 @@
-import {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
-import type {ModalProps} from "../../types/types";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+} from '@mui/material';
 import { isEmail } from 'validator';
-import {useDispatch} from "react-redux";
-import {closeModal, openModal} from "../../redux/slices/modalSlice.ts";
-import {MODAL_OPTIONS} from "../../constants/constants.ts";
 
-export function RequestTokenModal({open, onClose}: ModalProps) {
+import { MODAL_OPTIONS } from '@/constants';
+import { closeModal, openModal } from '@/redux/slices/modalSlice';
+import type { ModalProps } from '@/types';
+
+export function RequestTokenModal({ open, onClose }: ModalProps) {
     const [email, setEmail] = useState('');
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
@@ -17,8 +25,8 @@ export function RequestTokenModal({open, onClose}: ModalProps) {
             return;
         }
         setError(false);
-        setEmail("");
-        dispatch(openModal(MODAL_OPTIONS.enterToken))
+        setEmail('');
+        dispatch(openModal(MODAL_OPTIONS.enterToken));
     };
 
     return (
@@ -35,23 +43,26 @@ export function RequestTokenModal({open, onClose}: ModalProps) {
                         borderRadius: 2,
                         boxShadow: 24,
                     },
-                }}>
-                <DialogTitle sx={{fontWeight: 500}}>Запросить токен</DialogTitle>
-                <DialogContent sx={{
-                    overflow: 'hidden'
-                }}>
+                }}
+            >
+                <DialogTitle sx={{ fontWeight: 500 }}>Запросить токен</DialogTitle>
+                <DialogContent
+                    sx={{
+                        overflow: 'hidden',
+                    }}
+                >
                     <TextField
                         type="email"
                         label={'Почта'}
                         variant="standard"
                         sx={{
-                            height: '47px'
+                            height: '47px',
                         }}
                         fullWidth
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         error={error}
-                        helperText={error ? "Введите корректный email" : ""}
+                        helperText={error ? 'Введите корректный email' : ''}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -62,13 +73,14 @@ export function RequestTokenModal({open, onClose}: ModalProps) {
                             dispatch(closeModal());
                         }}
                         color="primary"
-                    >Отмена</Button>
-                    <Button
-                        onClick={handleChange}
-                        color="primary"
-                    >Запросить</Button>
+                    >
+                        Отмена
+                    </Button>
+                    <Button onClick={handleChange} color="primary">
+                        Запросить
+                    </Button>
                 </DialogActions>
             </Dialog>
         </>
-    )
+    );
 }

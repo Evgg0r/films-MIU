@@ -1,10 +1,11 @@
-import {RequestTokenModal} from "../RequestTokenModal/RequestTokenModal";
-import {EnterTokenModal} from "../EnterTokenModal/EnterTokenModal";
-import type {ModalKey, ModalProps} from "../../types/types";
-import type {FC} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import type {RootState} from "../../redux/store.ts";
-import {closeModal} from "../../redux/slices/modalSlice.ts";
+import type { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { EnterTokenModal } from '@/components/EnterTokenModal';
+import { RequestTokenModal } from '@/components/RequestTokenModal';
+import { closeModal } from '@/redux/slices/modalSlice';
+import type { RootState } from '@/redux/store';
+import type { ModalKey, ModalProps } from '@/types/types';
 
 const modalComponents: Record<ModalKey, FC<ModalProps>> = {
     requestToken: RequestTokenModal,

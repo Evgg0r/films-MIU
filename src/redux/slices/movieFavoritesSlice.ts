@@ -1,9 +1,10 @@
-import {MOVIE_FAVORITES_INITIAL_STATE} from "../../constants/constants.ts";
-import {createSlice} from "@reduxjs/toolkit";
-import {fetchMovieFavorites} from "../thunks/movieFavoritesThunks.ts";
+import { createSlice } from '@reduxjs/toolkit';
+
+import { MOVIE_FAVORITES_INITIAL_STATE } from '@/constants/constants.ts';
+import { fetchMovieFavorites } from '@/redux/thunks/movieFavoritesThunks';
 
 const movieFavoritesSlice = createSlice({
-    name: "movieFavorites",
+    name: 'movieFavorites',
     initialState: MOVIE_FAVORITES_INITIAL_STATE,
     reducers: {},
     extraReducers: (builder) => {
@@ -19,11 +20,11 @@ const movieFavoritesSlice = createSlice({
             .addCase(fetchMovieFavorites.rejected, (state, action) => {
                 state.loading = false;
                 state.error =
-                    typeof action.payload === "string"
+                    typeof action.payload === 'string'
                         ? action.payload
-                        : action.error.message ?? "Неизвестная ошибка";
+                        : (action.error.message ?? 'Неизвестная ошибка');
             });
     },
 });
 
-export const movieFavoritesReducerRTK = movieFavoritesSlice.reducer;
+export const movieFavoritesReducer = movieFavoritesSlice.reducer;
